@@ -6,7 +6,7 @@
 	"scripts": {
 		"prepare": "npm run test",
 		"pretest": "eslint . --color --cache",
-		"test": "jest"
+		"test": "jest --coverage"
 	},
 	"repository": {
 		"type": "git",
@@ -61,6 +61,9 @@
 			"no-compare-neg-zero": 0
 		}
 	},
+	"eslintIgnore": [
+		"coverage/*"
+	],
 	"dependencies": {
 		"axios": "^0.16.2",
 		"neon-js": "^1.1.2",
