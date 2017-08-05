@@ -1,0 +1,94 @@
+{
+	"name": "google-fonts-webpack-plugin",
+	"version": "1.0.0",
+	"description": "Webpack plugin for downloading and base64 encoding desired fonts from fonts.google.com",
+	"main": "index.js",
+	"scripts": {
+		"prepare": "npm run test",
+		"pretest": "eslint . --color --cache",
+		"test": "jest"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/SirPole/google-fonts-webpack-plugin.git"
+	},
+	"keywords": [
+		"google",
+		"fonts",
+		"google-fonts",
+		"webpack-plugin",
+		"webpack"
+	],
+	"author": "Martin Brychta <martin@brychta.name> (https://www.brychta.name/)",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/SirPole/google-fonts-webpack-plugin/issues"
+	},
+	"homepage": "https://github.com/SirPole/google-fonts-webpack-plugin#readme",
+	"babel": {
+		"babelrc": false,
+		"presets": [
+			[
+				"es2015",
+				{
+					"modules": false
+				}
+			],
+			"stage-0"
+		]
+	},
+	"eslintConfig": {
+		"root": true,
+		"parser": "babel-eslint",
+		"extends": [
+			"standard"
+		],
+		"globals": {
+			"Nette": true,
+			"LiveForm": true,
+			"ga": true
+		},
+		"env": {
+			"browser": true,
+			"node": true,
+			"commonjs": true,
+			"es6": true,
+			"jquery": true,
+			"mocha": true
+		},
+		"rules": {
+			"quotes": [
+				2,
+				"single"
+			],
+			"key-spacing": [
+				2,
+				{
+					"beforeColon": true,
+					"mode": "minimum",
+					"align": "colon"
+				}
+			],
+			"no-multi-spaces": 0,
+			"no-compare-neg-zero": 0,
+			"import/no-webpack-loader-syntax": 0
+		}
+	},
+	"dependencies": {
+		"axios": "^0.16.2",
+		"neon-js": "^1.1.2",
+		"path": "^0.12.7"
+	},
+	"devDependencies": {
+		"babel-eslint": "^7.2.3",
+		"babel-preset-es2015": "^6.24.1",
+		"babel-preset-stage-0": "^6.24.1",
+		"eslint": "^4.3.0",
+		"eslint-config-standard": "^10.2.1",
+		"eslint-plugin-import": "^2.7.0",
+		"eslint-plugin-node": "^5.1.1",
+		"eslint-plugin-promise": "^3.5.0",
+		"eslint-plugin-standard": "^3.0.1",
+		"jest": "^20.0.4"
+	}
+}
