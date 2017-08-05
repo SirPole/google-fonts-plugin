@@ -1,14 +1,14 @@
 'use strict'
 
-import GoogleFontswebpackPlugin from '../index'
+import GoogleFontsWebpackPlugin from '../index'
 
 test('Can initialize with default options', () => {
-  const googleFonts = new GoogleFontswebpackPlugin()
-  expect(googleFonts.options).toEqual(GoogleFontswebpackPlugin.defaultOptions)
+  const googleFonts = new GoogleFontsWebpackPlugin()
+  expect(googleFonts.options).toEqual(GoogleFontsWebpackPlugin.defaultOptions)
 })
 
 test('Can overwrite default options object', () => {
-  const googleFonts = new GoogleFontswebpackPlugin({
+  const googleFonts = new GoogleFontsWebpackPlugin({
     fonts        : [],
     formats      : [],
     formatAgents : {}
@@ -21,7 +21,7 @@ test('Can overwrite default options object', () => {
 })
 
 test('Can load configuration from json file', () => {
-  const googleFonts = new GoogleFontswebpackPlugin('__tests__/__mocks__/options.json')
+  const googleFonts = new GoogleFontsWebpackPlugin('__tests__/__mocks__/options.json')
   expect(googleFonts.options).toEqual({
     fonts        : [],
     formats      : [],
@@ -30,7 +30,7 @@ test('Can load configuration from json file', () => {
 })
 
 test('Can load configuration from neon file', () => {
-  const googleFonts = new GoogleFontswebpackPlugin('__tests__/__mocks__/options.neon')
+  const googleFonts = new GoogleFontsWebpackPlugin('__tests__/__mocks__/options.neon')
   expect(googleFonts.options).toEqual({
     fonts        : {},
     formats      : {},

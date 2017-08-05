@@ -6,7 +6,7 @@ import path from 'path'
 
 const PLUGIN_NAME = 'google-fonts-webpack-plugin'
 
-class GoogleFontswebpackPlugin {
+class GoogleFontsWebpackPlugin {
   static defaultOptions = {
     fonts        : [
       {
@@ -39,7 +39,7 @@ class GoogleFontswebpackPlugin {
   constructor (options) {
     this.options = {}
     if (typeof options === 'object') {
-      Object.assign(this.options, GoogleFontswebpackPlugin.defaultOptions, options)
+      Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, options)
     } else if (typeof options === 'string') {
       let file        = fs.readFileSync(options, 'utf8')
       let fileOptions = {}
@@ -48,14 +48,13 @@ class GoogleFontswebpackPlugin {
       } else {
         fileOptions = JSON.parse(file)
       }
-      Object.assign(this.options, GoogleFontswebpackPlugin.defaultOptions, fileOptions)
+      Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, fileOptions)
     } else {
       let file        = fs.readFileSync(path.join(__dirname, 'package.json'), 'utf8')
       let fileOptions = JSON.parse(file)
-      Object.assign(this.options, GoogleFontswebpackPlugin.defaultOptions, fileOptions[ PLUGIN_NAME ] || {})
+      Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, fileOptions[ PLUGIN_NAME ] || {})
     }
   }
 }
 
-// module.exports = GoogleFontswebpackPlugin
-export default GoogleFontswebpackPlugin
+export default GoogleFontsWebpackPlugin
