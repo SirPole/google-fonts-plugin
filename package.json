@@ -6,7 +6,8 @@
 	"scripts": {
 		"prepare": "npm run test",
 		"pretest": "eslint . --color --cache",
-		"test": "jest --coverage"
+		"test": "jest --coverage",
+		"test-watch": "jest --coverage --watch"
 	},
 	"repository": {
 		"type": "git",
