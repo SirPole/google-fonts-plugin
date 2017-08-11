@@ -44,15 +44,25 @@ class GoogleFontsWebpackPlugin {
       let file        = fs.readFileSync(options, 'utf8')
       let fileOptions = {}
       if (/\.neon$/.test(options)) {
-        fileOptions = neon.decode(file.replace(/\r\n/g, '\n'), 'object')[ PLUGIN_NAME ]
+        fileOptions = neon.decode(file.replace(/\r\n/g, '\n'), 'object')
       } else {
         fileOptions = JSON.parse(file)
       }
-      Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, fileOptions)
+      Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, this.getConfig(fileOptions))
     } else {
       let file        = fs.readFileSync(path.join(__dirname, 'package.json'), 'utf8')
       let fileOptions = JSON.parse(file)
-      Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, fileOptions[ PLUGIN_NAME ] || {})
+      Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, this.getConfig(fileOptions))
+    }
+  }
+
+  getConfig (options) {
+    for (let key of Object.keys(options)) {
+      if (key === PLUGIN_NAME) {
+        return options[ key ]
+      } else if (typeof options[ key ] === 'object' && options[ key ]) {
+        return this.getConfig(options[ key ])
+      }
     }
   }
 }
