@@ -18,6 +18,7 @@ class GoogleFontsWebpackPlugin {
           '700i'
         ],
         subsets  : [
+          'latin',
           'latin-ext'
         ]
       }
@@ -64,6 +65,27 @@ class GoogleFontsWebpackPlugin {
         return this.getConfig(options[ key ])
       }
     }
+  }
+
+  createRequestStrings () {
+    return this.options.fonts.map(item => {
+      if (item.family) {
+        let requestString = 'https://fonts.googleapis.com/css?'
+        requestString += 'family=' + item.family.replace(/\s/gi, '+')
+        if (item.variants) {
+          requestString += ':' + item.variants.reduce((variants, variant) => {
+            return variants + ',' + variant
+          })
+        }
+        if (item.subsets) {
+          requestString += '&subset=' + item.subsets.reduce((subsets, subset) => {
+            return subsets + ',' + subset
+          })
+        }
+        return requestString
+      }
+      return null
+    })
   }
 }
 
