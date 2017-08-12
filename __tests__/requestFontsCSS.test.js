@@ -65,5 +65,5 @@ test('Should get one font css', async () => {
     '  font-weight: 700;\n' +
     '  src: local(\'Roboto Bold Italic\'), local(\'Roboto-BoldItalic\'), url(https://fonts.gstatic.com/s/roboto/v16/t6Nd4cfPRhZP44Q5QAjcC6g5eI2G47JWe0-AuFtD150.woff2) format(\'woff2\');\n' +
     '}\n')
-  await expect(googleFonts.requestOneFontCSS('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=latin,latin-ext', 'woff2')).resolves.toMatch(/Roboto Bold Italic.*\.woff2/)
+  await expect(googleFonts.requestFont('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=latin,latin-ext', 'woff2')).resolves.toMatch(/Roboto Bold Italic.*\.woff2/)
 })
