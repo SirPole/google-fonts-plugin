@@ -2,6 +2,7 @@
 	"google-fonts-webpack-plugin": {
 		"fonts": [],
 		"formats": [],
-		"formatAgents": {}
+		"formatAgents": {},
+		"outputDir": ""
 	}
 }

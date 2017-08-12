@@ -2,3 +2,4 @@ google-fonts-webpack-plugin:
 	fonts: []
 	formats: []
 	formatAgents: []
+	outputDir: ''

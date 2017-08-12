@@ -4,3 +4,4 @@ nested:
 			fonts: []
 			formats: []
 			formatAgents: []
+			outputDir: ''

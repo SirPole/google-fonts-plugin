@@ -11,12 +11,14 @@ test('Can overwrite default options object', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({
     fonts        : [],
     formats      : [],
-    formatAgents : {}
+    formatAgents : {},
+    outputDir    : ''
   })
   expect(googleFonts.options).toEqual({
     fonts        : [],
     formats      : [],
-    formatAgents : {}
+    formatAgents : {},
+    outputDir    : ''
   })
 })
 
@@ -25,7 +27,8 @@ test('Can load configuration from json file', () => {
   expect(googleFonts.options).toEqual({
     fonts        : [],
     formats      : [],
-    formatAgents : {}
+    formatAgents : {},
+    outputDir    : ''
   })
 })
 
@@ -34,7 +37,8 @@ test('Can load nested configuration from json file', () => {
   expect(googleFonts.options).toEqual({
     fonts        : [],
     formats      : [],
-    formatAgents : {}
+    formatAgents : {},
+    outputDir    : ''
   })
 })
 
@@ -48,7 +52,8 @@ test('Can load configuration from neon file', () => {
   expect(googleFonts.options).toEqual({
     fonts        : {},
     formats      : {},
-    formatAgents : {}
+    formatAgents : {},
+    outputDir    : ''
   })
 })
 
@@ -57,7 +62,8 @@ test('Can load configuration from nested neon file', () => {
   expect(googleFonts.options).toEqual({
     fonts        : {},
     formats      : {},
-    formatAgents : {}
+    formatAgents : {},
+    outputDir    : ''
   })
 })
 
