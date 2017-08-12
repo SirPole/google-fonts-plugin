@@ -99,12 +99,20 @@ class GoogleFontsWebpackPlugin {
     return response.data
   }
 
-  requestFontsCSS (format) {
-    return Promise.all(this.createRequestStrings().map(requestString => this.requestFont(requestString, format)))
+  async requestFontsCSS (format) {
+    const results = []
+    for (const promise of this.createRequestStrings().map(requestString => this.requestFont(requestString, format))) {
+      results.push(await promise)
+    }
+    return results
   }
 
-  requestFontFiles (fontUrls, format) {
-    return Promise.all(fontUrls.map(fontUrl => this.requestFontFile(fontUrl, format)))
+  async requestFontFiles (fontUrls, format) {
+    const results = []
+    for (const promise of fontUrls.map(fontUrl => this.requestFontFile(fontUrl, format))) {
+      results.push(await promise)
+    }
+    return results
   }
 
   async requestFontFile (fontUrl, format) {
