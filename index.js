@@ -104,7 +104,7 @@ class GoogleFontsWebpackPlugin {
     for (const promise of this.createRequestStrings().map(requestString => this.requestFont(requestString, format))) {
       results.push(await promise)
     }
-    return results
+    return results.join('')
   }
 
   async requestFontFiles (fontUrls, format) {
