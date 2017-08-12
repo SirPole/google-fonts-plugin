@@ -1,5 +1,6 @@
 'use strict'
 
+import axios from 'axios'
 import fs from 'fs'
 import neon from 'neon-js'
 import path from 'path'
@@ -86,6 +87,18 @@ class GoogleFontsWebpackPlugin {
       }
       return null
     })
+  }
+
+  requestFontsCSS (format) {
+    return Promise.all(this.createRequestStrings().map(async requestString => {
+      const response = await axios({
+        url     : requestString,
+        headers : {
+          'User-Agent' : this.options.formatAgents[ format ]
+        }
+      })
+      return response.data
+    }))
   }
 }
 
