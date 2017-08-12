@@ -89,16 +89,18 @@ class GoogleFontsWebpackPlugin {
     })
   }
 
+  async requestOneFontCSS (requestString, format) {
+    const response = await axios({
+      url     : requestString,
+      headers : {
+        'User-Agent' : this.options.formatAgents[ format ]
+      }
+    })
+    return response.data
+  }
+
   requestFontsCSS (format) {
-    return Promise.all(this.createRequestStrings().map(async requestString => {
-      const response = await axios({
-        url     : requestString,
-        headers : {
-          'User-Agent' : this.options.formatAgents[ format ]
-        }
-      })
-      return response.data
-    }))
+    return Promise.all(this.createRequestStrings().map((requestString) => this.requestOneFontCSS(requestString, format)))
   }
 }
 
