@@ -21,7 +21,7 @@ test('Can overwrite default options object', () => {
 })
 
 test('Can load configuration from json file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__tests__/__mocks__/options.json')
+  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/options.json')
   expect(googleFonts.options).toEqual({
     fonts        : [],
     formats      : [],
@@ -30,7 +30,7 @@ test('Can load configuration from json file', () => {
 })
 
 test('Can load nested configuration from json file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__tests__/__mocks__/optionsNested.json')
+  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsNested.json')
   expect(googleFonts.options).toEqual({
     fonts        : [],
     formats      : [],
@@ -39,12 +39,12 @@ test('Can load nested configuration from json file', () => {
 })
 
 test('Will fallback to default options if it\'s not present in json file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__tests__/__mocks__/optionsMissing.json')
+  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsMissing.json')
   expect(googleFonts.options).toEqual(GoogleFontsWebpackPlugin.defaultOptions)
 })
 
 test('Can load configuration from neon file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__tests__/__mocks__/options.neon')
+  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/options.neon')
   expect(googleFonts.options).toEqual({
     fonts        : {},
     formats      : {},
@@ -53,7 +53,7 @@ test('Can load configuration from neon file', () => {
 })
 
 test('Can load configuration from nested neon file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__tests__/__mocks__/optionsNested.neon')
+  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsNested.neon')
   expect(googleFonts.options).toEqual({
     fonts        : {},
     formats      : {},
@@ -62,6 +62,6 @@ test('Can load configuration from nested neon file', () => {
 })
 
 test('Will fallback to default options if it\'s not present in neon file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__tests__/__mocks__/optionsMissing.neon')
+  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsMissing.neon')
   expect(googleFonts.options).toEqual(GoogleFontsWebpackPlugin.defaultOptions)
 })

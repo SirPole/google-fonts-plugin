@@ -8,7 +8,7 @@ test('Creates request string with default settings', () => {
 })
 
 test('Does not create request string with empty settings', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__tests__/__mocks__/options.json')
+  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/options.json')
   expect(googleFonts.createRequestStrings()).toEqual([])
 })
 
