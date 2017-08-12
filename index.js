@@ -103,15 +103,23 @@ class GoogleFontsWebpackPlugin {
     return Promise.all(this.createRequestStrings().map(requestString => this.requestFont(requestString, format)))
   }
 
-  requestFontFiles (css, format) {
-    const regex    = /url\((.+?)\)/gi
-    const fontUrls = css.match(regex).map(urlString => urlString.replace(regex, '$1'))
+  requestFontFiles (fontUrls, format) {
     return Promise.all(fontUrls.map(fontUrl => this.requestFontFile(fontUrl, format)))
   }
 
   async requestFontFile (fontUrl, format) {
     const font = await this.requestFont(fontUrl, format)
     return '"data:application/x-font-' + format + ';base64,' + Buffer.from(font).toString('base64') + '"'
+  }
+
+  async encodeFonts (css, format) {
+    const regex        = /url\((.+?)\)/gi
+    const fontUrls     = css.match(regex).map(urlString => urlString.replace(regex, '$1'))
+    const fontsEncoded = await this.requestFontFiles(fontUrls, format)
+    fontsEncoded.forEach((font, index) => {
+      css = css.replace(fontUrls[ index ], font)
+    })
+    return css
   }
 }
 
