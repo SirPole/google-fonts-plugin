@@ -5,9 +5,8 @@ import fs from 'fs'
 import neon from 'neon-js'
 import path from 'path'
 
-const PLUGIN_NAME = 'google-fonts-webpack-plugin'
-
 class GoogleFontsWebpackPlugin {
+  static pluginName     = 'google-fonts-webpack-plugin'
   static defaultOptions = {
     fonts        : [
       {
@@ -61,7 +60,7 @@ class GoogleFontsWebpackPlugin {
 
   getConfig (options) {
     for (let key of Object.keys(options)) {
-      if (key === PLUGIN_NAME) {
+      if (key === GoogleFontsWebpackPlugin.pluginName) {
         return options[ key ]
       } else if (typeof options[ key ] === 'object' && options[ key ]) {
         return this.getConfig(options[ key ])
