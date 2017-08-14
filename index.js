@@ -118,7 +118,7 @@ class GoogleFontsWebpackPlugin {
 
   async requestFontFile (fontUrl, format) {
     const font = await this.requestFont(fontUrl, format)
-    return '"data:application/x-font-' + format + ';base64,' + Buffer.from(font).toString('base64') + '"'
+    return `"data:application/x-font-${format};base64,${Buffer.from(font).toString('base64')}"`
   }
 
   async encodeFonts (css, format) {
