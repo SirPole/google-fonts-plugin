@@ -5,7 +5,8 @@
 				"fonts": [],
 				"formats": [],
 				"formatAgents": {},
-				"outputDir": ""
+				"outputDir": "",
+				"minify": false
 			}
 		}
 	}

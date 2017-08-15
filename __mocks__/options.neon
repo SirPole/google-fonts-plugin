@@ -3,3 +3,4 @@ google-fonts-webpack-plugin:
 	formats: []
 	formatAgents: []
 	outputDir: ''
+	minify: no

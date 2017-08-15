@@ -12,13 +12,15 @@ test('Can overwrite default options object', () => {
     fonts        : [],
     formats      : [],
     formatAgents : {},
-    outputDir    : ''
+    outputDir    : '',
+    minify       : false
   })
   expect(googleFonts.options).toEqual({
     fonts        : [],
     formats      : [],
     formatAgents : {},
-    outputDir    : ''
+    outputDir    : '',
+    minify       : false
   })
 })
 
@@ -28,7 +30,8 @@ test('Can load configuration from json file', () => {
     fonts        : [],
     formats      : [],
     formatAgents : {},
-    outputDir    : ''
+    outputDir    : '',
+    minify       : false
   })
 })
 
@@ -38,7 +41,8 @@ test('Can load nested configuration from json file', () => {
     fonts        : [],
     formats      : [],
     formatAgents : {},
-    outputDir    : ''
+    outputDir    : '',
+    minify       : false
   })
 })
 
@@ -53,7 +57,8 @@ test('Can load configuration from neon file', () => {
     fonts        : {},
     formats      : {},
     formatAgents : {},
-    outputDir    : ''
+    outputDir    : '',
+    minify       : false
   })
 })
 
@@ -63,7 +68,8 @@ test('Can load configuration from nested neon file', () => {
     fonts        : {},
     formats      : {},
     formatAgents : {},
-    outputDir    : ''
+    outputDir    : '',
+    minify       : false
   })
 })
 

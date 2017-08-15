@@ -1,6 +1,7 @@
 'use strict'
 
 import axios from 'axios'
+import cssnano from 'cssnano'
 import fs from 'fs'
 import neon from 'neon-js'
 import path from 'path'
@@ -35,7 +36,8 @@ class GoogleFontsWebpackPlugin {
       'woff'  : 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; rv:11.0) like Gecko',
       'woff2' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; ServiceUI 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393'
     },
-    outputDir    : 'public/fonts'
+    outputDir    : 'public/fonts',
+    minify       : true
   }
 
   constructor (options) {
@@ -128,6 +130,14 @@ class GoogleFontsWebpackPlugin {
       css = css.replace(fontUrls[ index ], font)
     })
     return css
+  }
+
+  static async minifyFonts (css) {
+    const minified = await cssnano.process(css, {
+      discardComments : { removeAll : true },
+      discardUnused   : false
+    })
+    return minified.css
   }
 
   pushToFile (css, format) {
