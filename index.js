@@ -124,21 +124,26 @@ class GoogleFontsWebpackPlugin {
   }
 
   async encodeFonts (css, format) {
-    const regex        = /url\((.+?)\)/gi
-    const fontUrls     = css.match(regex).map(urlString => urlString.replace(regex, '$1'))
-    const fontsEncoded = await this.requestFontFiles(fontUrls, format)
-    fontsEncoded.forEach((font, index) => {
-      css = css.replace(fontUrls[ index ], font)
-    })
+    if (this.options.encode) {
+      const regex        = /url\((.+?)\)/gi
+      const fontUrls     = css.match(regex).map(urlString => urlString.replace(regex, '$1'))
+      const fontsEncoded = await this.requestFontFiles(fontUrls, format)
+      fontsEncoded.forEach((font, index) => {
+        css = css.replace(fontUrls[ index ], font)
+      })
+    }
     return css
   }
 
-  static async minifyFonts (css) {
-    const minified = await cssnano.process(css, {
-      discardComments : { removeAll : true },
-      discardUnused   : false
-    })
-    return minified.css
+  async minifyFonts (css) {
+    if (this.options.minify) {
+      const minified = await cssnano.process(css, {
+        discardComments : { removeAll : true },
+        discardUnused   : false
+      })
+      return minified.css
+    }
+    return css
   }
 
   pushToFile (css, format) {
