@@ -6,6 +6,7 @@
 				"formats": [],
 				"formatAgents": {},
 				"outputDir": "",
+				"encode": false,
 				"minify": false
 			}
 		}

@@ -5,4 +5,5 @@ nested:
 			formats: []
 			formatAgents: []
 			outputDir: ''
+			encode: no
 			minify: no
