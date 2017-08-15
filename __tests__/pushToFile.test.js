@@ -4,6 +4,7 @@ import GoogleFontsWebpackPlugin from '../index'
 import path from 'path'
 
 jest.mock('fs')
+jest.mock('mkdirp')
 
 test('Should save file to file system', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({})

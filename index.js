@@ -3,6 +3,7 @@
 import axios from 'axios'
 import cssnano from 'cssnano'
 import fs from 'fs'
+import mkdirp from 'mkdirp'
 import neon from 'neon-js'
 import path from 'path'
 
@@ -147,6 +148,7 @@ class GoogleFontsWebpackPlugin {
   }
 
   pushToFile (css, format) {
+    mkdirp.sync(this.options.outputDir)
     return fs.writeFileSync(path.join(this.options.outputDir, format + '.css'), css)
   }
 }
