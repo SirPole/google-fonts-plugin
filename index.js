@@ -151,6 +151,15 @@ class GoogleFontsWebpackPlugin {
     mkdirp.sync(this.options.outputDir)
     return fs.writeFileSync(path.join(this.options.outputDir, format + '.css'), css)
   }
+
+  async make () {
+    for (const format of this.options.formats) {
+      let css = await this.requestFontsCSS(format)
+      css     = await this.encodeFonts(css, format)
+      css     = await this.minifyFonts(css)
+      this.pushToFile(css, format)
+    }
+  }
 }
 
 export default GoogleFontsWebpackPlugin
