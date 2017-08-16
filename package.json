@@ -68,6 +68,7 @@
 	"dependencies": {
 		"axios": "^0.16.2",
 		"cssnano": "^3.10.0",
+		"mkdirp": "^0.5.1",
 		"neon-js": "^1.1.2",
 		"path": "^0.12.7"
 	},
@@ -83,6 +84,7 @@
 		"eslint-plugin-node": "^5.1.1",
 		"eslint-plugin-promise": "^3.5.0",
 		"eslint-plugin-standard": "^3.0.1",
-		"jest": "^20.0.4"
+		"jest": "^20.0.4",
+		"webpack": "^3.5.4"
 	}
 }

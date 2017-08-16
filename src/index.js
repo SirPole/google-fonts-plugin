@@ -160,6 +160,13 @@ class GoogleFontsWebpackPlugin {
       this.pushToFile(css, format)
     }
   }
+
+  apply (compiler) {
+    compiler.plugin('emit', async (compilation, callback) => {
+      await this.make()
+      callback()
+    })
+  }
 }
 
 export default GoogleFontsWebpackPlugin
