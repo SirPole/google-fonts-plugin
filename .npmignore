@@ -1,0 +1,8 @@
+.idea
+
+coverage/
+src/
+node_modules/
+.eslintcache
+__mocks__
+__tests__
