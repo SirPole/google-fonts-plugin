@@ -73,17 +73,17 @@ class GoogleFontsWebpackPlugin {
   }
 
   createRequestStrings () {
-    return this.options.fonts.map(item => {
+    return Object.values(this.options.fonts).map(item => {
       if (item.family) {
         let requestString = 'https://fonts.googleapis.com/css?'
         requestString += 'family=' + item.family.replace(/\s/gi, '+')
         if (item.variants) {
-          requestString += ':' + item.variants.reduce((variants, variant) => {
+          requestString += ':' + Object.values(item.variants).reduce((variants, variant) => {
             return variants + ',' + variant
           })
         }
         if (item.subsets) {
-          requestString += '&subset=' + item.subsets.reduce((subsets, subset) => {
+          requestString += '&subset=' + Object.values(item.subsets).reduce((subsets, subset) => {
             return subsets + ',' + subset
           })
         }
@@ -153,7 +153,7 @@ class GoogleFontsWebpackPlugin {
   }
 
   async make () {
-    for (const format of this.options.formats) {
+    for (const format of Object.values(this.options.formats)) {
       let css = await this.requestFontsCSS(format)
       css     = await this.encodeFonts(css, format)
       css     = await this.minifyFonts(css)
