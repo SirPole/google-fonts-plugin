@@ -1,6 +1,6 @@
 'use strict'
 
-import GoogleFontsWebpackPlugin from '../index'
+import GoogleFontsWebpackPlugin from '../src'
 import path from 'path'
 
 jest.mock('fs')

@@ -1,6 +1,6 @@
 'use strict'
 
-import GoogleFontsWebpackPlugin from '../index'
+import GoogleFontsWebpackPlugin from '../src'
 
 test('Should minify provided css', async () => {
   const googleFonts = new GoogleFontsWebpackPlugin()

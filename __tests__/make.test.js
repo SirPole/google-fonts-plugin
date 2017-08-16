@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import AxiosMockAdapter from 'axios-mock-adapter'
-import GoogleFontsWebpackPlugin from '../index'
+import GoogleFontsWebpackPlugin from '../src'
 
 const mock = new AxiosMockAdapter(axios)
 jest.mock('fs')

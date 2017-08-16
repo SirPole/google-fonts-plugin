@@ -56,7 +56,7 @@ class GoogleFontsWebpackPlugin {
       }
       Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, this.getConfig(fileOptions))
     } else {
-      let file        = fs.readFileSync(path.join(__dirname, 'package.json'), 'utf8')
+      let file        = fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8')
       let fileOptions = JSON.parse(file)
       Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, this.getConfig(fileOptions))
     }

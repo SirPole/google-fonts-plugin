@@ -1,6 +1,6 @@
 'use strict'
 
-import GoogleFontsWebpackPlugin from '../index'
+import GoogleFontsWebpackPlugin from '../src'
 
 test('Creates request string with default settings', () => {
   const googleFonts = new GoogleFontsWebpackPlugin()
