@@ -8,7 +8,7 @@ import neon from 'neon-js'
 import path from 'path'
 
 class GoogleFontsWebpackPlugin {
-  static pluginName     = 'google-fonts-webpack-plugin'
+  static pluginName     = 'google-fonts-plugin'
   static defaultOptions = {
     fonts        : [
       {

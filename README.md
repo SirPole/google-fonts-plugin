@@ -1,2 +1,2 @@
-# google-fonts-webpack-plugin
+# google-fonts-plugin
 Webpack plugin for downloading and base64 encoding desired fonts from fonts.google.com

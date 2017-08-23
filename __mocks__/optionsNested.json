@@ -1,7 +1,7 @@
 {
 	"nested": {
 		"nested": {
-			"google-fonts-webpack-plugin": {
+			"google-fonts-plugin": {
 				"fonts": [],
 				"formats": [],
 				"formatAgents": {},

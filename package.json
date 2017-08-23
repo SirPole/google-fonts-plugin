@@ -1,5 +1,5 @@
 {
-	"name": "google-fonts-webpack-plugin",
+	"name": "google-fonts-plugin",
 	"version": "1.0.0",
 	"description": "Webpack plugin for downloading and base64 encoding desired fonts from fonts.google.com",
 	"main": "dist/index.js",
@@ -13,7 +13,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/SirPole/google-fonts-webpack-plugin.git"
+		"url": "git+https://github.com/SirPole/google-fonts-plugin.git"
 	},
 	"keywords": [
 		"google",
@@ -25,9 +25,9 @@
 	"author": "Martin Brychta <martin@brychta.name> (https://www.brychta.name/)",
 	"license": "GPL-3.0",
 	"bugs": {
-		"url": "https://github.com/SirPole/google-fonts-webpack-plugin/issues"
+		"url": "https://github.com/SirPole/google-fonts-plugin/issues"
 	},
-	"homepage": "https://github.com/SirPole/google-fonts-webpack-plugin#readme",
+	"homepage": "https://github.com/SirPole/google-fonts-plugin#readme",
 	"babel": {
 		"babelrc": false,
 		"presets": [
@@ -80,19 +80,19 @@
 	},
 	"devDependencies": {
 		"axios-mock-adapter": "^1.9.0",
-		"babel-cli": "^6.24.1",
+		"babel-cli": "^6.26.0",
 		"babel-eslint": "^7.2.3",
 		"babel-jest": "^20.0.3",
 		"babel-plugin-transform-runtime": "^6.23.0",
 		"babel-preset-es2015": "^6.24.1",
 		"babel-preset-stage-0": "^6.24.1",
-		"eslint": "^4.4.1",
+		"eslint": "^4.5.0",
 		"eslint-config-standard": "^10.2.1",
 		"eslint-plugin-import": "^2.7.0",
 		"eslint-plugin-node": "^5.1.1",
 		"eslint-plugin-promise": "^3.5.0",
 		"eslint-plugin-standard": "^3.0.1",
 		"jest": "^20.0.4",
-		"webpack": "^3.5.4"
+		"webpack": "^3.5.5"
 	}
 }
