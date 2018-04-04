@@ -1,6 +1,6 @@
 {
 	"name": "google-fonts-plugin",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Webpack plugin that downloads fonts from Google Fonts and encodes them to base64.",
 	"main": "dist/index.js",
 	"scripts": {
@@ -72,27 +72,27 @@
 		"dist/*"
 	],
 	"dependencies": {
-		"axios": "^0.16.2",
+		"axios": "^0.18.0",
 		"cssnano": "^3.10.0",
 		"mkdirp": "^0.5.1",
 		"neon-js": "^1.1.2",
 		"path": "^0.12.7"
 	},
 	"devDependencies": {
-		"axios-mock-adapter": "^1.9.0",
+		"axios-mock-adapter": "^1.14.1",
 		"babel-cli": "^6.26.0",
-		"babel-eslint": "^7.2.3",
-		"babel-jest": "^20.0.3",
+		"babel-eslint": "^8.2.2",
+		"babel-jest": "^22.4.3",
 		"babel-plugin-transform-runtime": "^6.23.0",
 		"babel-preset-es2015": "^6.24.1",
 		"babel-preset-stage-0": "^6.24.1",
-		"eslint": "^4.5.0",
-		"eslint-config-standard": "^10.2.1",
-		"eslint-plugin-import": "^2.7.0",
-		"eslint-plugin-node": "^5.1.1",
-		"eslint-plugin-promise": "^3.5.0",
+		"eslint": "^4.19.1",
+		"eslint-config-standard": "^11.0.0",
+		"eslint-plugin-import": "^2.10.0",
+		"eslint-plugin-node": "^6.0.1",
+		"eslint-plugin-promise": "^3.7.0",
 		"eslint-plugin-standard": "^3.0.1",
-		"jest": "^20.0.4",
+		"jest": "^22.4.3",
 		"webpack": "^3.5.5"
 	}
 }
