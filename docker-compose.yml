@@ -1,0 +1,36 @@
+version: "3.4"
+services:
+  web:
+    container_name: web
+    image: sirpole/ant-dev:7.1
+    volumes:
+      - .:/var/www
+      - ~/.ssh:/.ant/ssh-host
+      - ~/.ant/composer:/.ant/composer/cache
+      - ~/.ant/npm:/.ant/npm
+    environment:
+      - GITHUB_KEY
+      - NETTE_DEBUG=1
+    ports:
+      - "80:80"
+      - "443:443"
+      - "3000:3000"
+      - "3001:3001"
+      - "3002:3002"
+  database:
+    container_name: database
+    image: mysql
+    command: mysqld --innodb_data_file_path="ibdata1:10M:autoextend" --sql-mode="" --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ~/.ant/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_HOST=database
+      - PMA_USER=root
+      - PMA_PASSWORD=root
