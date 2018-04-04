@@ -1,0 +1,22 @@
+{
+  "first": {},
+  "second": {
+    "nested": {}
+  },
+  "third": {
+    "first": {},
+    "second": {
+      "nested": {}
+    },
+    "third": {
+      "google-fonts-plugin": {
+        "fonts": [],
+        "formats": [],
+        "formatAgents": {},
+        "outputDir": "",
+        "encode": false,
+        "minify": false
+      }
+    }
+  }
+}

@@ -66,8 +66,12 @@ export default class GoogleFontsWebpackPlugin {
     for (let key of Object.keys(options)) {
       if (key === GoogleFontsWebpackPlugin.pluginName) {
         return options[ key ]
-      } else if (typeof options[ key ] === 'object' && options[ key ]) {
-        return this.getConfig(options[ key ])
+      } else if (options[ key ] instanceof Object && Object.keys(options[ key ]).length !== 0) {
+        const result = this.getConfig(options[ key ])
+
+        if (result) {
+          return result
+        }
       }
     }
   }
