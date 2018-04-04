@@ -4,7 +4,7 @@ import path from 'path'
 import webpack from 'webpack'
 import GoogleFontsWebpackPlugin from '../src'
 
-test.skip('Should apply to webpack', () => {
+test('Should apply to webpack', () => {
   const googleFonts = new GoogleFontsWebpackPlugin()
   const compiler    = webpack({
     bail   : true,
@@ -16,8 +16,9 @@ test.skip('Should apply to webpack', () => {
     }
   })
   const plugin = jest.spyOn(compiler, 'plugin')
-  const make = jest.spyOn(googleFonts, 'make').mockImplementation(() => 'called!')
+  const make = jest.spyOn(googleFonts, 'make').mockImplementation(() => {})
   googleFonts.apply(compiler)
+  compiler.emitAssets({}, () => {})
   expect(plugin).toBeCalled()
   expect(make).toBeCalled()
 })
