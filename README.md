@@ -1,5 +1,7 @@
 # Google Fonts Plugin
 
+[![CircleCI](https://circleci.com/gh/SirPole/google-fonts-plugin/tree/master.svg?style=shield)](https://circleci.com/gh/SirPole/google-fonts-plugin/tree/master)
+
 [Webpack](https://webpack.js.org/) plugin that downloads fonts from [Google Fonts](https://fonts.google.com/) and encodes them to base64.
 
 Supports various font formats, currently `eot`, `ttf`, `woff` and `woff2`.
