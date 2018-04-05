@@ -39,6 +39,6 @@ workflows:
   test&build:
     jobs:
       - test
-      - build
+      - build:
         requires:
           - test
