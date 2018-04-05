@@ -1,5 +1,6 @@
 .idea
 
+.circleci
 coverage/
 src/
 node_modules/

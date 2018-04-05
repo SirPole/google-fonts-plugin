@@ -4,8 +4,7 @@
 	"description": "Webpack plugin that downloads fonts from Google Fonts and encodes them to base64.",
 	"main": "dist/index.js",
 	"scripts": {
-		"prepublish": "npm run build",
-		"prepare": "npm run test",
+		"prepublish": "npm test && npm run build",
 		"pretest": "eslint . --color --cache",
 		"test": "jest --coverage",
 		"test-watch": "jest --coverage --watch",
