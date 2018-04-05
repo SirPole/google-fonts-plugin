@@ -79,7 +79,7 @@ export default class GoogleFontsWebpackPlugin {
   createRequestStrings () {
     return Object.values(this.options.fonts).map(item => {
       if (item.family) {
-        let requestString = 'https://fonts.googleapis.com/css?'
+        let requestString = 'https://fonts.googleapis.com/'+(item.icon ? 'icon' : 'css')+'?'
         requestString += 'family=' + item.family.replace(/\s/gi, '+')
         if (item.variants) {
           requestString += ':' + Object.values(item.variants).reduce((variants, variant) => {
