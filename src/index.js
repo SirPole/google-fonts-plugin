@@ -167,9 +167,18 @@ export default class GoogleFontsWebpackPlugin {
   }
 
   apply (compiler) {
-    compiler.plugin('emit', async (compilation, callback) => {
-      await this.make()
-      callback()
-    })
+    if (compiler.hooks) {
+      const plugin = { name: 'GoogleFontsPlugin' };
+
+      compiler.hooks.emit.tapAsync(plugin, async (compilation, callback) => {
+        await this.make()
+        callback()
+      });
+    } else {
+      compiler.plugin('emit', async (compilation, callback) => {
+        await this.make()
+        callback()
+      })
+    }
   }
 }
