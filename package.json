@@ -7,6 +7,7 @@
     "prepublishOnly": "npm test && npm run build",
     "pretest": "standard",
     "test": "jest --coverage --env=node",
+    "posttest": "codecov",
     "test-watch": "jest --watch --env=node",
     "build": "babel src --out-dir dist"
   },
@@ -60,16 +61,17 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "axios-mock-adapter": "^1.15.0",
     "@babel/cli": "^7.0.0-beta.55",
     "@babel/core": "^7.0.0-beta.55",
     "@babel/plugin-proposal-class-properties": "^7.0.0-beta.55",
     "@babel/plugin-transform-runtime": "^7.0.0-beta.55",
     "@babel/preset-env": "^7.0.0-beta.55",
     "@babel/runtime": "^7.0.0-beta.55",
+    "axios-mock-adapter": "^1.15.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^8.2.6",
     "babel-jest": "^23.4.2",
+    "codecov": "^3.0.4",
     "jest": "^23.4.2",
     "standard": "^11.0.1",
     "webpack": "^4.16.3",
