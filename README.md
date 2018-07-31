@@ -105,3 +105,5 @@ google-fonts-plugin:
 		- woff2
 	outputDir: public/fonts
 ```
+
+> **Note**: For Google's material icons, simply set `Material Icons` as font-family
