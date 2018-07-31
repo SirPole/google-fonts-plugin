@@ -16,7 +16,7 @@ npm i -D google-fonts-plugin
 ## Usage
 ###### webpack.config.js
 ``` javascript
-const GoogleFontsPlugin = require('google-fonts-plugin').default
+const GoogleFontsPlugin = require('google-fonts-plugin')
 
 module.exports = {
   plugins: {
@@ -29,7 +29,7 @@ module.exports = {
 
 ###### webpack.config.js
 ``` javascript
-const GoogleFontsPlugin = require('google-fonts-plugin').default
+const GoogleFontsPlugin = require('google-fonts-plugin')
 
 module.exports = {
   plugins: {

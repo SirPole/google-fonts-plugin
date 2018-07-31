@@ -7,7 +7,7 @@ import mkdirp from 'mkdirp'
 import neon from 'neon-js'
 import path from 'path'
 
-export default class GoogleFontsWebpackPlugin {
+class GoogleFontsWebpackPlugin {
   static pluginName = 'google-fonts-plugin'
   static defaultOptions = {
     fonts: [
@@ -174,3 +174,5 @@ export default class GoogleFontsWebpackPlugin {
     })
   }
 }
+
+module.exports = GoogleFontsWebpackPlugin
