@@ -4,7 +4,7 @@
 coverage/
 src/
 node_modules/
-.eslintcache
+log
 __mocks__
 __tests__
 docker-compose.yml
