@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SirPole/google-fonts-plugin.git"
+    "url": "https://github.com/SirPole/google-fonts-plugin"
   },
   "keywords": [
     "google",
@@ -22,7 +22,7 @@
     "webpack"
   ],
   "author": "Martin Brychta <martin@brychta.name> (https://www.brychta.name/)",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/SirPole/google-fonts-plugin/issues"
   },
