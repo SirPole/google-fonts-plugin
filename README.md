@@ -8,6 +8,8 @@ Supports various font formats, currently `eot`, `ttf`, `woff` and `woff2`.
 
 Exports to format specific and minified css files, which you can serve to your clients.
 
+> **Note**: Current version works with Webpack 4. For webpack 3, use version **1.0.3**
+
 ## Install
 ``` bash
 npm i -D google-fonts-plugin
