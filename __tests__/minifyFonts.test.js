@@ -20,7 +20,7 @@ test('Should minify provided css', async () => {
 })
 
 test('Should not minify provided css', async () => {
-  const googleFonts = new GoogleFontsWebpackPlugin({ minify : false })
+  const googleFonts = new GoogleFontsWebpackPlugin({minify: false})
   await expect(googleFonts.minifyFonts(
     '@font-face {\n' +
     '  font-family: \'Roboto\';\n' +

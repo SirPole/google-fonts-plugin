@@ -6,30 +6,29 @@ import GoogleFontsWebpackPlugin from '../src'
 
 const mock = new AxiosMockAdapter(axios)
 jest.mock('fs')
-jest.mock('mkdirp')
 
 test('Should run properly', async () => {
-  const googleFonts     = new GoogleFontsWebpackPlugin({
-    fonts   : [
+  const googleFonts = new GoogleFontsWebpackPlugin({
+    fonts: [
       {
-        family   : 'Roboto',
-        variants : [
+        family: 'Roboto',
+        variants: [
           '400'
         ],
-        subsets  : [
+        subsets: [
           'latin-ext'
         ]
       }
     ],
-    formats : [
+    formats: [
       'woff',
       'woff2'
     ]
   })
   const requestFontsCSS = jest.spyOn(googleFonts, 'requestFontsCSS')
-  const encodeFonts     = jest.spyOn(googleFonts, 'encodeFonts')
-  const minifyFonts     = jest.spyOn(googleFonts, 'minifyFonts').mockImplementation((css) => css + '/*minified*/')
-  const pushToFile      = jest.spyOn(googleFonts, 'pushToFile')
+  const encodeFonts = jest.spyOn(googleFonts, 'encodeFonts')
+  const minifyFonts = jest.spyOn(googleFonts, 'minifyFonts').mockImplementation((css) => css + '/*minified*/')
+  const pushToFile = jest.spyOn(googleFonts, 'pushToFile')
   mock.onGet('https://fonts.googleapis.com/css?family=Roboto:400&subset=latin-ext').reply(200, '@font-face {\n' +
     '  font-family: \'Roboto\';\n' +
     '  font-style: normal;\n' +
@@ -45,27 +44,27 @@ test('Should run properly', async () => {
 })
 
 test('Should run properly without encoding', async () => {
-  const googleFonts     = new GoogleFontsWebpackPlugin({
-    fonts   : [
+  const googleFonts = new GoogleFontsWebpackPlugin({
+    fonts: [
       {
-        family   : 'Roboto',
-        variants : [
+        family: 'Roboto',
+        variants: [
           '400'
         ],
-        subsets  : [
+        subsets: [
           'latin-ext'
         ]
       }
     ],
-    formats : [
+    formats: [
       'woff',
       'woff2'
     ],
-    encode  : false
+    encode: false
   })
   const requestFontsCSS = jest.spyOn(googleFonts, 'requestFontsCSS')
-  const minifyFonts     = jest.spyOn(googleFonts, 'minifyFonts').mockImplementation((css) => css + '/*minified*/')
-  const pushToFile      = jest.spyOn(googleFonts, 'pushToFile')
+  const minifyFonts = jest.spyOn(googleFonts, 'minifyFonts').mockImplementation((css) => css + '/*minified*/')
+  const pushToFile = jest.spyOn(googleFonts, 'pushToFile')
   mock.onGet('https://fonts.googleapis.com/css?family=Roboto:400&subset=latin-ext').reply(200, '@font-face {\n' +
     '  font-family: \'Roboto\';\n' +
     '  font-style: normal;\n' +
@@ -80,27 +79,27 @@ test('Should run properly without encoding', async () => {
 })
 
 test('Should run properly without minification', async () => {
-  const googleFonts     = new GoogleFontsWebpackPlugin({
-    fonts   : [
+  const googleFonts = new GoogleFontsWebpackPlugin({
+    fonts: [
       {
-        family   : 'Roboto',
-        variants : [
+        family: 'Roboto',
+        variants: [
           '400'
         ],
-        subsets  : [
+        subsets: [
           'latin-ext'
         ]
       }
     ],
-    formats : [
+    formats: [
       'woff',
       'woff2'
     ],
-    minify  : false
+    minify: false
   })
   const requestFontsCSS = jest.spyOn(googleFonts, 'requestFontsCSS')
-  const encodeFonts     = jest.spyOn(googleFonts, 'encodeFonts')
-  const pushToFile      = jest.spyOn(googleFonts, 'pushToFile')
+  const encodeFonts = jest.spyOn(googleFonts, 'encodeFonts')
+  const pushToFile = jest.spyOn(googleFonts, 'pushToFile')
   mock.onGet('https://fonts.googleapis.com/css?family=Roboto:400&subset=latin-ext').reply(200, '@font-face {\n' +
     '  font-family: \'Roboto\';\n' +
     '  font-style: normal;\n' +
@@ -115,27 +114,27 @@ test('Should run properly without minification', async () => {
 })
 
 test('Should run properly without encoding and minification', async () => {
-  const googleFonts     = new GoogleFontsWebpackPlugin({
-    fonts   : [
+  const googleFonts = new GoogleFontsWebpackPlugin({
+    fonts: [
       {
-        family   : 'Roboto',
-        variants : [
+        family: 'Roboto',
+        variants: [
           '400'
         ],
-        subsets  : [
+        subsets: [
           'latin-ext'
         ]
       }
     ],
-    formats : [
+    formats: [
       'woff',
       'woff2'
     ],
-    encode  : false,
-    minify  : false
+    encode: false,
+    minify: false
   })
   const requestFontsCSS = jest.spyOn(googleFonts, 'requestFontsCSS')
-  const pushToFile      = jest.spyOn(googleFonts, 'pushToFile')
+  const pushToFile = jest.spyOn(googleFonts, 'pushToFile')
   mock.onGet('https://fonts.googleapis.com/css?family=Roboto:400&subset=latin-ext').reply(200, '@font-face {\n' +
     '  font-family: \'Roboto\';\n' +
     '  font-style: normal;\n' +

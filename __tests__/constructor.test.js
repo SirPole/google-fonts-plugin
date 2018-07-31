@@ -9,56 +9,56 @@ test('Can initialize with default options', () => {
 
 test('Can overwrite default options object', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({
-    fonts        : [],
-    formats      : [],
-    formatAgents : {},
-    outputDir    : '',
-    encode       : false,
-    minify       : false
+    fonts: [],
+    formats: [],
+    formatAgents: {},
+    outputDir: '',
+    encode: false,
+    minify: false
   })
   expect(googleFonts.options).toEqual({
-    fonts        : [],
-    formats      : [],
-    formatAgents : {},
-    outputDir    : '',
-    encode       : false,
-    minify       : false
+    fonts: [],
+    formats: [],
+    formatAgents: {},
+    outputDir: '',
+    encode: false,
+    minify: false
   })
 })
 
 test('Can load configuration from json file', () => {
   const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/options.json')
   expect(googleFonts.options).toEqual({
-    fonts        : [],
-    formats      : [],
-    formatAgents : {},
-    outputDir    : '',
-    encode       : false,
-    minify       : false
+    fonts: [],
+    formats: [],
+    formatAgents: {},
+    outputDir: '',
+    encode: false,
+    minify: false
   })
 })
 
 test('Can load nested configuration from json file', () => {
   const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsNested.json')
   expect(googleFonts.options).toEqual({
-    fonts        : [],
-    formats      : [],
-    formatAgents : {},
-    outputDir    : '',
-    encode       : false,
-    minify       : false
+    fonts: [],
+    formats: [],
+    formatAgents: {},
+    outputDir: '',
+    encode: false,
+    minify: false
   })
 })
 
 test('Can load nested configuration from json file while not being the first', () => {
   const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsNestedButNotFirst.json')
   expect(googleFonts.options).toEqual({
-    fonts        : [],
-    formats      : [],
-    formatAgents : {},
-    outputDir    : '',
-    encode       : false,
-    minify       : false
+    fonts: [],
+    formats: [],
+    formatAgents: {},
+    outputDir: '',
+    encode: false,
+    minify: false
   })
 })
 
@@ -70,36 +70,36 @@ test('Will fallback to default options if it\'s not present in json file', () =>
 test('Can load configuration from neon file', () => {
   const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/options.neon')
   expect(googleFonts.options).toEqual({
-    fonts        : {},
-    formats      : {},
-    formatAgents : {},
-    outputDir    : '',
-    encode       : false,
-    minify       : false
+    fonts: {},
+    formats: {},
+    formatAgents: {},
+    outputDir: '',
+    encode: false,
+    minify: false
   })
 })
 
 test('Can load configuration from nested neon file', () => {
   const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsNested.neon')
   expect(googleFonts.options).toEqual({
-    fonts        : {},
-    formats      : {},
-    formatAgents : {},
-    outputDir    : '',
-    encode       : false,
-    minify       : false
+    fonts: {},
+    formats: {},
+    formatAgents: {},
+    outputDir: '',
+    encode: false,
+    minify: false
   })
 })
 
 test('Can load nested configuration from json file while not being the first', () => {
   const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsNestedButNotFirst.neon')
   expect(googleFonts.options).toEqual({
-    fonts        : {},
-    formats      : {},
-    formatAgents : {},
-    outputDir    : '',
-    encode       : false,
-    minify       : false
+    fonts: {},
+    formats: {},
+    formatAgents: {},
+    outputDir: '',
+    encode: false,
+    minify: false
   })
 })
 

@@ -4,7 +4,7 @@ import GoogleFontsWebpackPlugin from '../src'
 
 test('Creates request string with default settings', () => {
   const googleFonts = new GoogleFontsWebpackPlugin()
-  expect(googleFonts.createRequestStrings()).toEqual([ 'https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=latin,latin-ext' ])
+  expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=latin,latin-ext'])
 })
 
 test('Does not create request string with empty settings', () => {
@@ -14,31 +14,31 @@ test('Does not create request string with empty settings', () => {
 
 test('Does not create request strong from missing family', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({
-    fonts : [ {} ]
+    fonts: [{}]
   })
-  expect(googleFonts.createRequestStrings()).toEqual([ null ])
+  expect(googleFonts.createRequestStrings()).toEqual([null])
 })
 
 test('Does create request string with 1 variant', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({
-    fonts : [
+    fonts: [
       {
-        family   : 'Roboto',
-        variants : [
+        family: 'Roboto',
+        variants: [
           '400'
         ]
       }
     ]
   })
-  expect(googleFonts.createRequestStrings()).toEqual([ 'https://fonts.googleapis.com/css?family=Roboto:400' ])
+  expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto:400'])
 })
 
 test('Does create request string with multiple variants', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({
-    fonts : [
+    fonts: [
       {
-        family   : 'Roboto',
-        variants : [
+        family: 'Roboto',
+        variants: [
           '400',
           '700',
           '900'
@@ -46,29 +46,29 @@ test('Does create request string with multiple variants', () => {
       }
     ]
   })
-  expect(googleFonts.createRequestStrings()).toEqual([ 'https://fonts.googleapis.com/css?family=Roboto:400,700,900' ])
+  expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto:400,700,900'])
 })
 
 test('Does create request string with 1 subset', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({
-    fonts : [
+    fonts: [
       {
-        family  : 'Roboto',
-        subsets : [
+        family: 'Roboto',
+        subsets: [
           'latin-ext'
         ]
       }
     ]
   })
-  expect(googleFonts.createRequestStrings()).toEqual([ 'https://fonts.googleapis.com/css?family=Roboto&subset=latin-ext' ])
+  expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&subset=latin-ext'])
 })
 
 test('Does create request string with multiple subsets', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({
-    fonts : [
+    fonts: [
       {
-        family  : 'Roboto',
-        subsets : [
+        family: 'Roboto',
+        subsets: [
           'greek-ext',
           'latin-ext',
           'vietnamese'
@@ -76,33 +76,33 @@ test('Does create request string with multiple subsets', () => {
       }
     ]
   })
-  expect(googleFonts.createRequestStrings()).toEqual([ 'https://fonts.googleapis.com/css?family=Roboto&subset=greek-ext,latin-ext,vietnamese' ])
+  expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&subset=greek-ext,latin-ext,vietnamese'])
 })
 
 test('Does create multiple request strings', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({
-    fonts : [
+    fonts: [
       {
-        family   : 'Roboto',
-        variants : [
+        family: 'Roboto',
+        variants: [
           '400',
           '700',
           '900'
         ],
-        subsets  : [
+        subsets: [
           'greek-ext',
           'latin-ext',
           'vietnamese'
         ]
       },
       {
-        family   : 'Open Sans',
-        variants : [
+        family: 'Open Sans',
+        variants: [
           '400',
           '700',
           '900'
         ],
-        subsets  : [
+        subsets: [
           'greek-ext',
           'latin-ext',
           'vietnamese'
