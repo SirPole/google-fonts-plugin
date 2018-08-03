@@ -1,7 +1,10 @@
 # Google Fonts Plugin
 
-[![CircleCI](https://circleci.com/gh/SirPole/google-fonts-plugin/tree/master.svg?style=shield)](https://circleci.com/gh/SirPole/google-fonts-plugin/tree/master)
-[![codecov](https://codecov.io/gh/SirPole/google-fonts-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/SirPole/google-fonts-plugin)
+[![GitHub license](https://img.shields.io/github/license/SirPole/google-fonts-plugin.svg)](https://github.com/SirPole/google-fonts-plugin/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/v/google-fonts-plugin.svg)](https://www.npmjs.com/package/google-fonts-plugin)
+[![CircleCI](https://img.shields.io/circleci/project/github/SirPole/google-fonts-plugin.svg)](https://circleci.com/gh/SirPole/google-fonts-plugin/tree/master)
+[![Codecov](https://img.shields.io/codecov/c/github/sirpole/google-fonts-plugin.svg)](https://codecov.io/gh/SirPole/google-fonts-plugin)
+
 
 [Webpack](https://webpack.js.org/) plugin that downloads fonts from [Google Fonts](https://fonts.google.com/) and encodes them to base64.
 
