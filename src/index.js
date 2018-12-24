@@ -3,9 +3,9 @@
 import axios from 'axios'
 import cssnano from 'cssnano'
 import fs from 'fs'
-import mkdirp from 'mkdirp'
 import neon from 'neon-js'
 import path from 'path'
+import RawModule from 'webpack/lib/RawModule'
 
 class GoogleFontsWebpackPlugin {
   static pluginName = 'google-fonts-plugin'
@@ -37,7 +37,7 @@ class GoogleFontsWebpackPlugin {
       'woff': 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; rv:11.0) like Gecko',
       'woff2': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; ServiceUI 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393'
     },
-    outputDir: 'public/fonts',
+    chunkName: 'google-fonts',
     encode: true,
     minify: true
   }
@@ -79,18 +79,16 @@ class GoogleFontsWebpackPlugin {
   createRequestStrings () {
     return Object.values(this.options.fonts).map(item => {
       if (item.family) {
-        let requestString = 'https://fonts.googleapis.com/css?'
-        requestString += 'family=' + item.family.replace(/\s/gi, '+')
+        let requestString = 'https://fonts.googleapis.com/css?family=' + item.family.replace(/\s/gi, '+')
+
         if (item.variants) {
-          requestString += ':' + Object.values(item.variants).reduce((variants, variant) => {
-            return variants + ',' + variant
-          })
+          requestString += ':' + Object.values(item.variants).reduce((variants, variant) => variants + ',' + variant)
         }
+
         if (item.subsets) {
-          requestString += '&subset=' + Object.values(item.subsets).reduce((subsets, subset) => {
-            return subsets + ',' + subset
-          })
+          requestString += '&subset=' + Object.values(item.subsets).reduce((subsets, subset) => subsets + ',' + subset)
         }
+
         return requestString
       }
       return null
@@ -144,32 +142,54 @@ class GoogleFontsWebpackPlugin {
   async minifyFonts (css) {
     if (this.options.minify) {
       const minified = await cssnano.process(css, {
-        discardComments: {removeAll: true},
+        discardComments: { removeAll: true },
         discardUnused: false,
         from: undefined
       })
-      return minified.css
+      css = minified.css
     }
     return css
   }
 
-  pushToFile (css, format) {
-    mkdirp.sync(this.options.outputDir)
-    return fs.writeFileSync(path.join(this.options.outputDir, format + '.css'), css)
-  }
-
-  async make () {
-    for (const format of Object.values(this.options.formats)) {
-      let css = await this.requestFontsCSS(format)
-      css = await this.encodeFonts(css, format)
-      css = await this.minifyFonts(css)
-      this.pushToFile(css, format)
-    }
-  }
-
   apply (compiler) {
-    compiler.hooks.emit.tapAsync({name: GoogleFontsWebpackPlugin.pluginName}, async (compilation, callback) => {
-      await this.make()
+    const files = []
+    compiler.hooks.make.tapAsync(GoogleFontsWebpackPlugin.pluginName, async (compilation, callback) => {
+      for (const format of Object.values(this.options.formats)) {
+        const css = await this.requestFontsCSS(format)
+        const file = format + '.css'
+        files.push(file)
+
+        compilation.assets[file] = {
+          source: () => css,
+          size: () => Buffer.byteLength(css, 'utf8'),
+          format: () => format
+        }
+      }
+
+      const chunk = compilation.addChunk(this.options.chunkName)
+      const webpackModule = new RawModule('', this.options.chunkName + '-module')
+      webpackModule.buildInfo = {}
+      webpackModule.buildMeta = {}
+      webpackModule.hash = ''
+      chunk.addModule(webpackModule)
+
+      compilation.hooks.optimizeAssets.tapAsync(GoogleFontsWebpackPlugin.pluginName, async (assets, callback) => {
+        const chunk = compilation.namedChunks.get(this.options.chunkName)
+        delete compilation.assets[chunk.files[0]]
+        chunk.files = files
+        for (const file of files) {
+          let css = await this.encodeFonts(assets[file].source(), assets[file].format())
+          css = await this.minifyFonts(css)
+
+          compilation.assets[file] = {
+            source: () => css,
+            size: () => Buffer.byteLength(css, 'utf8')
+          }
+        }
+
+        callback()
+      })
+
       callback()
     })
   }

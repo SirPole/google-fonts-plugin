@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prepublishOnly": "npm test && npm run build",
-    "pretest": "standard",
+    "pretest": "standard --fix",
     "test": "jest --coverage --env=node",
     "posttest": "codecov",
     "test-watch": "jest --watch --env=node",
@@ -54,24 +54,22 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "cssnano": "^4.0.5",
-    "mkdirp": "^0.5.1",
-    "neon-js": "^1.1.2",
-    "path": "^0.12.7"
+    "cssnano": "^4.1.8",
+    "neon-js": "^1.1.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.55",
-    "@babel/core": "^7.0.0-beta.55",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.55",
-    "@babel/preset-env": "^7.0.0-beta.55",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/preset-env": "^7.2.3",
     "axios-mock-adapter": "^1.15.0",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^8.2.6",
-    "babel-jest": "^23.4.2",
-    "codecov": "^3.0.4",
-    "jest": "^23.4.2",
-    "standard": "^11.0.1",
-    "webpack": "^4.16.3",
-    "webpack-cli": "^3.1.0"
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "codecov": "^3.1.0",
+    "jest": "^23.6.0",
+    "standard": "^12.0.1",
+    "webpack": "^4.28.2",
+    "webpack-cli": "^3.1.2"
   }
 }

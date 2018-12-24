@@ -7,18 +7,17 @@ import GoogleFontsWebpackPlugin from '../src'
 test('Should apply to webpack 4', () => {
   const googleFonts = new GoogleFontsWebpackPlugin()
   const compiler = webpack({
+    mode: 'production',
     bail: true,
     cache: false,
-    entry: path.join(__dirname, '__mocks__', 'entry.js'),
+    entry: path.join(__dirname, '..', '__mocks__', 'entry.js'),
     output: {
-      path: path.join(__dirname, '__mocks__', 'dist'),
+      path: path.join(__dirname, '..', '__mocks__', 'dist'),
       filename: '[name].[hash].js'
     }
   })
-  const plugin = jest.spyOn(compiler.hooks.emit, 'tapAsync')
-  const make = jest.spyOn(googleFonts, 'make').mockImplementation(() => {})
+  const plugin = jest.spyOn(compiler.hooks.make, 'tapAsync')
   googleFonts.apply(compiler)
-  compiler.emitAssets({}, () => {})
+  compiler.emitAssets(compiler.createCompilation(), () => {})
   expect(plugin).toBeCalled()
-  expect(make).toBeCalled()
 })

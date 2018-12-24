@@ -5,7 +5,7 @@
 				"fonts": [],
 				"formats": [],
 				"formatAgents": {},
-				"outputDir": "",
+				"chunkName": "",
 				"encode": false,
 				"minify": false
 			}

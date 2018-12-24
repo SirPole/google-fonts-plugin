@@ -12,7 +12,7 @@ test('Can overwrite default options object', () => {
     fonts: [],
     formats: [],
     formatAgents: {},
-    outputDir: '',
+    chunkName: '',
     encode: false,
     minify: false
   })
@@ -20,7 +20,7 @@ test('Can overwrite default options object', () => {
     fonts: [],
     formats: [],
     formatAgents: {},
-    outputDir: '',
+    chunkName: '',
     encode: false,
     minify: false
   })
@@ -32,7 +32,7 @@ test('Can load configuration from json file', () => {
     fonts: [],
     formats: [],
     formatAgents: {},
-    outputDir: '',
+    chunkName: '',
     encode: false,
     minify: false
   })
@@ -44,7 +44,7 @@ test('Can load nested configuration from json file', () => {
     fonts: [],
     formats: [],
     formatAgents: {},
-    outputDir: '',
+    chunkName: '',
     encode: false,
     minify: false
   })
@@ -56,7 +56,7 @@ test('Can load nested configuration from json file while not being the first', (
     fonts: [],
     formats: [],
     formatAgents: {},
-    outputDir: '',
+    chunkName: '',
     encode: false,
     minify: false
   })
@@ -73,7 +73,7 @@ test('Can load configuration from neon file', () => {
     fonts: {},
     formats: {},
     formatAgents: {},
-    outputDir: '',
+    chunkName: '',
     encode: false,
     minify: false
   })
@@ -85,7 +85,7 @@ test('Can load configuration from nested neon file', () => {
     fonts: {},
     formats: {},
     formatAgents: {},
-    outputDir: '',
+    chunkName: '',
     encode: false,
     minify: false
   })
@@ -97,7 +97,7 @@ test('Can load nested configuration from json file while not being the first', (
     fonts: {},
     formats: {},
     formatAgents: {},
-    outputDir: '',
+    chunkName: '',
     encode: false,
     minify: false
   })

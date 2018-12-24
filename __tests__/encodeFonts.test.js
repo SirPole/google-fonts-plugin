@@ -38,7 +38,7 @@ test('Should replace urls in css with encoded fonts', async () => {
 })
 
 test('Should NOT replace urls in css with encoded fonts', async () => {
-  const googleFonts = new GoogleFontsWebpackPlugin({encode: false})
+  const googleFonts = new GoogleFontsWebpackPlugin({ encode: false })
   await expect(googleFonts.encodeFonts(
     '@font-face {\n' +
     '  font-family: \'Roboto\';\n' +

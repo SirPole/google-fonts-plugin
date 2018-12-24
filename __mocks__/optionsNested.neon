@@ -4,6 +4,6 @@ nested:
 			fonts: []
 			formats: []
 			formatAgents: []
-			outputDir: ''
+			chunkName: ''
 			encode: no
 			minify: no
