@@ -51,7 +51,6 @@ Plugin supports configuration in javascript object, json or [neon](https://ne-on
 |-----------	|------------	|-----------------------	|---------------------------------------------------------------	|
 | fonts     	| `Font[]`  	| Roboto                	| Defines which fonts and it's variants and subsets to download 	|
 | formats   	| `String[]` 	| eot, ttf, woff, woff2 	| Specifies which formats to download                           	|
-| outputDir 	| `String`   	| public/fonts          	| Specifies the output directory                                	|
 | encode    	| `Boolean`  	| true                  	| Whether should encode to base64                               	|
 | minify    	| `Boolean`  	| true                  	| Whether should minify resulting css                               |
 
@@ -85,8 +84,7 @@ Plugin supports configuration in javascript object, json or [neon](https://ne-on
 		"formats": [
 			"woff",
 			"woff2"
-		],
-		"outputDir": "public/fonts"
+		]
 	}
 }
 ```
@@ -107,7 +105,6 @@ google-fonts-plugin:
 	formats: 
 		- woff
 		- woff2
-	outputDir: public/fonts
 ```
 
 > **Note**: For Google's material icons, simply set `Material Icons` as font-family
