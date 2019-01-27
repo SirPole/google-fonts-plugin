@@ -22,7 +22,7 @@ test('Should replace urls in css with encoded fonts', async () => {
     '  font-style: normal;\n' +
     '  font-weight: 700;\n' +
     '  src: local(\'Roboto Bold\'), local(\'Roboto-Bold\'), url(https://fonts.gstatic.com/s/roboto/v16/97uahxiqZRoncBaCEI3aW1tXRa8TVwTICgirnJhmVJw.woff2) format(\'woff2\');\n' +
-    '}\n', 'woff2')).resolves.toBe(
+    '}\n')).resolves.toBe(
     '@font-face {\n' +
     '  font-family: \'Roboto\';\n' +
     '  font-style: normal;\n' +
@@ -51,7 +51,7 @@ test('Should NOT replace urls in css with encoded fonts', async () => {
     '  font-style: normal;\n' +
     '  font-weight: 700;\n' +
     '  src: local(\'Roboto Bold\'), local(\'Roboto-Bold\'), url(https://fonts.gstatic.com/s/roboto/v16/97uahxiqZRoncBaCEI3aW1tXRa8TVwTICgirnJhmVJw.woff2) format(\'woff2\');\n' +
-    '}\n', 'woff2')).resolves.toBe(
+    '}\n')).resolves.toBe(
     '@font-face {\n' +
     '  font-family: \'Roboto\';\n' +
     '  font-style: normal;\n' +

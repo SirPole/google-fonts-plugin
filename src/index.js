@@ -82,11 +82,11 @@ class GoogleFontsWebpackPlugin {
         let requestString = 'https://fonts.googleapis.com/css?family=' + item.family.replace(/\s/gi, '+')
 
         if (item.variants) {
-          requestString += ':' + Object.values(item.variants).reduce((variants, variant) => variants + ',' + variant)
+          requestString += ':' + Object.values(item.variants).join(',')
         }
 
         if (item.subsets) {
-          requestString += '&subset=' + Object.values(item.subsets).reduce((subsets, subset) => subsets + ',' + subset)
+          requestString += '&subset=' + Object.values(item.subsets).join(',')
         }
 
         return requestString
@@ -114,24 +114,25 @@ class GoogleFontsWebpackPlugin {
     return results.join('')
   }
 
-  async requestFontFiles (fontUrls, format) {
+  async requestFontFiles (fontUrls) {
     const results = []
-    for (const promise of fontUrls.map(fontUrl => this.requestFontFile(fontUrl, format))) {
+    for (const promise of fontUrls.map(fontUrl => this.requestFontFile(fontUrl))) {
       results.push(await promise)
     }
     return results
   }
 
-  async requestFontFile (fontUrl, format) {
+  async requestFontFile (fontUrl) {
+    const format = fontUrl.match(new RegExp('(' + this.options.formats.join('|') + ')$'))[1]
     const font = await this.requestFont(fontUrl, format)
     return `"data:application/x-font-${format};base64,${Buffer.from(font, 'binary').toString('base64')}"`
   }
 
-  async encodeFonts (css, format) {
+  async encodeFonts (css) {
     if (this.options.encode) {
       const regex = /url\((.+?)\)/gi
       const fontUrls = css.match(regex).map(urlString => urlString.replace(regex, '$1'))
-      const fontsEncoded = await this.requestFontFiles(fontUrls, format)
+      const fontsEncoded = await this.requestFontFiles(fontUrls)
       fontsEncoded.forEach((font, index) => {
         css = css.replace(fontUrls[index], font)
       })
@@ -153,6 +154,7 @@ class GoogleFontsWebpackPlugin {
 
   apply (compiler) {
     const files = []
+
     compiler.hooks.make.tapAsync(GoogleFontsWebpackPlugin.pluginName, async (compilation, callback) => {
       for (const format of Object.values(this.options.formats)) {
         const css = await this.requestFontsCSS(format)
@@ -161,8 +163,7 @@ class GoogleFontsWebpackPlugin {
 
         compilation.assets[file] = {
           source: () => css,
-          size: () => Buffer.byteLength(css, 'utf8'),
-          format: () => format
+          size: () => Buffer.byteLength(css, 'utf8')
         }
       }
 
@@ -178,7 +179,7 @@ class GoogleFontsWebpackPlugin {
         delete compilation.assets[chunk.files[0]]
         chunk.files = files
         for (const file of files) {
-          let css = await this.encodeFonts(assets[file].source(), assets[file].format())
+          let css = await this.encodeFonts(assets[file].source())
           css = await this.minifyFonts(css)
 
           compilation.assets[file] = {

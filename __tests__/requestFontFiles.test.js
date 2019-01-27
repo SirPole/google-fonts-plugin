@@ -9,7 +9,7 @@ const mock = new AxiosMockAdapter(axios)
 test('Should encode font file to base64', async () => {
   const googleFonts = new GoogleFontsWebpackPlugin()
   mock.onGet('https://fonts.gstatic.com/s/roboto/v16/fIKu7GwZTy_12XzG_jt8eA.woff2').reply(200, 'asdf')
-  await expect(googleFonts.requestFontFile('https://fonts.gstatic.com/s/roboto/v16/fIKu7GwZTy_12XzG_jt8eA.woff2', 'woff2')).resolves.toBe('"data:application/x-font-woff2;base64,YXNkZg=="')
+  await expect(googleFonts.requestFontFile('https://fonts.gstatic.com/s/roboto/v16/fIKu7GwZTy_12XzG_jt8eA.woff2')).resolves.toBe('"data:application/x-font-woff2;base64,YXNkZg=="')
 })
 
 test('Should encode array of font files to base64', async () => {
@@ -19,7 +19,7 @@ test('Should encode array of font files to base64', async () => {
   await expect(googleFonts.requestFontFiles([
     'https://fonts.gstatic.com/s/roboto/v16/fIKu7GwZTy_12XzG_jt8eA.woff2',
     'https://fonts.gstatic.com/s/roboto/v16/97uahxiqZRoncBaCEI3aW1tXRa8TVwTICgirnJhmVJw.woff2'
-  ], 'woff2')).resolves.toEqual([
+  ])).resolves.toEqual([
     '"data:application/x-font-woff2;base64,YXNkZg=="',
     '"data:application/x-font-woff2;base64,ZmRzYQ=="'
   ])
