@@ -123,7 +123,7 @@ class GoogleFontsWebpackPlugin {
   }
 
   async requestFontFile (fontUrl) {
-    const format = fontUrl.match(new RegExp('(' + this.options.formats.join('|') + ')$'))[1]
+    const format = fontUrl.match(new RegExp('(' + Object.values(this.options.formats).join('|') + ')$'))[1]
     const font = await this.requestFont(fontUrl, format)
     return `"data:application/x-font-${format};base64,${Buffer.from(font, 'binary').toString('base64')}"`
   }
