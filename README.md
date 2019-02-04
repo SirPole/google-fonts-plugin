@@ -52,7 +52,6 @@ Plugin supports configuration in javascript object, json or [neon](https://ne-on
 | fonts     	| `Font[]`  	| Roboto                	| Defines which fonts and it's variants and subsets to download 	|
 | formats   	| `String[]` 	| eot, ttf, woff, woff2 	| Specifies which formats to download                           	|
 | encode    	| `Boolean`  	| true                  	| Whether should encode to base64                               	|
-| minify    	| `Boolean`  	| true                  	| Whether should minify resulting css                               |
 
 ##### Font object
 

@@ -4,4 +4,3 @@ google-fonts-plugin:
 	formatAgents: []
 	chunkName: ''
 	encode: no
-	minify: no

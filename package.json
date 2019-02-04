@@ -54,7 +54,6 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "cssnano": "^4.1.8",
     "neon-js": "^1.1.2"
   },
   "devDependencies": {

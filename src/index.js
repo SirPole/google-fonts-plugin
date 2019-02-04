@@ -1,7 +1,6 @@
 'use strict'
 
 import axios from 'axios'
-import cssnano from 'cssnano'
 import fs from 'fs'
 import neon from 'neon-js'
 import path from 'path'
@@ -38,8 +37,7 @@ class GoogleFontsWebpackPlugin {
       'woff2': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; ServiceUI 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393'
     },
     chunkName: 'google-fonts',
-    encode: true,
-    minify: true
+    encode: true
   }
 
   constructor (options) {
@@ -140,18 +138,6 @@ class GoogleFontsWebpackPlugin {
     return css
   }
 
-  async minifyFonts (css) {
-    if (this.options.minify) {
-      const minified = await cssnano.process(css, {
-        discardComments: { removeAll: true },
-        discardUnused: false,
-        from: undefined
-      })
-      css = minified.css
-    }
-    return css
-  }
-
   apply (compiler) {
     const files = []
 
@@ -180,7 +166,6 @@ class GoogleFontsWebpackPlugin {
         chunk.files = files
         for (const file of files) {
           let css = await this.encodeFonts(assets[file].source())
-          css = await this.minifyFonts(css)
 
           compilation.assets[file] = {
             source: () => css,

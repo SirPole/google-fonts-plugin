@@ -6,8 +6,7 @@
 				"formats": [],
 				"formatAgents": {},
 				"chunkName": "",
-				"encode": false,
-				"minify": false
+				"encode": false
 			}
 		}
 	}
