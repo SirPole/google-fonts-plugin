@@ -82,7 +82,7 @@ class GoogleFontsWebpackPlugin {
     return `${format}-${hashedUrl}`
   }
 
-  getFromCache (key) {
+  getFromCache (key, encoding) {
     let contents = null
     const file = findCacheDir({
       name: GoogleFontsWebpackPlugin.pluginName,
@@ -90,18 +90,18 @@ class GoogleFontsWebpackPlugin {
     })(key)
 
     if (fs.existsSync(file)) {
-      contents = fs.readFileSync(file, 'utf8')
+      contents = fs.readFileSync(file, encoding)
     }
     return contents
   }
 
-  saveToCache (key, contents) {
+  saveToCache (key, contents, encoding) {
     const file = findCacheDir({
       name: GoogleFontsWebpackPlugin.pluginName,
       create: true,
       thunk: true
     })(key)
-    return fs.writeFileSync(file, contents)
+    return fs.writeFileSync(file, contents, encoding)
   }
 
   createRequestStrings () {
@@ -123,11 +123,11 @@ class GoogleFontsWebpackPlugin {
     })
   }
 
-  async requestFont (requestString, format) {
+  async requestFont (requestString, format, encoding) {
     let response = null
     const cacheKey = this.getCacheKey(requestString, format)
     if (this.options.cache) {
-      response = this.getFromCache(cacheKey)
+      response = this.getFromCache(cacheKey, encoding)
     }
 
     if (!response) {
@@ -138,7 +138,7 @@ class GoogleFontsWebpackPlugin {
           'User-Agent': this.options.formatAgents[format]
         }
       })).data
-      this.saveToCache(cacheKey, response)
+      this.saveToCache(cacheKey, response, encoding)
     }
 
     return response
@@ -146,7 +146,7 @@ class GoogleFontsWebpackPlugin {
 
   async requestFontsCSS (format) {
     const results = []
-    for (const promise of this.createRequestStrings().map(requestString => this.requestFont(requestString, format))) {
+    for (const promise of this.createRequestStrings().map(requestString => this.requestFont(requestString, format, 'utf8'))) {
       results.push(await promise)
     }
     return results.join('')
@@ -166,7 +166,7 @@ class GoogleFontsWebpackPlugin {
     }
 
     const format = fontUrl.match(new RegExp('(' + Object.values(this.options.formats).join('|') + ')$'))[1]
-    const font = await this.requestFont(fontUrl, format)
+    const font = await this.requestFont(fontUrl, format, 'binary')
     return `"data:application/x-font-${format};base64,${Buffer.from(font, 'binary').toString('base64')}"`
   }
 
