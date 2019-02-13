@@ -6,3 +6,4 @@ nested:
 			formatAgents: []
 			chunkName: ''
 			encode: no
+			cache: no

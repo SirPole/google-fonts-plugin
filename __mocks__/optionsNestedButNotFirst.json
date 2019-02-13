@@ -14,7 +14,8 @@
         "formats": [],
         "formatAgents": {},
         "chunkName": "",
-        "encode": false
+        "encode": false,
+        "cache": false
       }
     }
   }

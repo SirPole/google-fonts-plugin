@@ -1,10 +1,12 @@
 'use strict'
 
-import axios from 'axios'
-import fs from 'fs'
-import neon from 'neon-js'
-import path from 'path'
-import RawModule from 'webpack/lib/RawModule'
+const axios = require('axios')
+const crypto = require('crypto')
+const fs = require('fs')
+const neon = require('neon-js')
+const pkgUp = require('pkg-up')
+const RawModule = require('webpack/lib/RawModule')
+const findCacheDir = require('find-cache-dir')
 
 class GoogleFontsWebpackPlugin {
   static pluginName = 'google-fonts-plugin'
@@ -37,7 +39,8 @@ class GoogleFontsWebpackPlugin {
       'woff2': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; ServiceUI 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393'
     },
     chunkName: 'google-fonts',
-    encode: true
+    encode: true,
+    cache: true
   }
 
   constructor (options) {
@@ -54,7 +57,7 @@ class GoogleFontsWebpackPlugin {
       }
       Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, this.getConfig(fileOptions))
     } else {
-      let file = fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8')
+      let file = fs.readFileSync(pkgUp.sync(), 'utf8')
       let fileOptions = JSON.parse(file)
       Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, this.getConfig(fileOptions))
     }
@@ -72,6 +75,33 @@ class GoogleFontsWebpackPlugin {
         }
       }
     }
+  }
+
+  getCacheKey (requestUrl, format) {
+    const hashedUrl = crypto.createHash('sha1').update(requestUrl).digest('hex')
+    return `${format}-${hashedUrl}.css`
+  }
+
+  getFromCache (key) {
+    let contents = null
+    const file = findCacheDir({
+      name: GoogleFontsWebpackPlugin.pluginName,
+      thunk: true
+    })(key)
+
+    if (fs.existsSync(file)) {
+      contents = fs.readFileSync(file, 'utf8')
+    }
+    return contents
+  }
+
+  saveToCache (key, contents) {
+    const file = findCacheDir({
+      name: GoogleFontsWebpackPlugin.pluginName,
+      create: true,
+      thunk: true
+    })(key)
+    return fs.writeFileSync(file, contents)
   }
 
   createRequestStrings () {
@@ -94,14 +124,24 @@ class GoogleFontsWebpackPlugin {
   }
 
   async requestFont (requestString, format) {
-    const response = await axios({
-      url: requestString,
-      responseType: 'arraybuffer',
-      headers: {
-        'User-Agent': this.options.formatAgents[format]
-      }
-    })
-    return response.data
+    let response = null
+    const cacheKey = this.getCacheKey(requestString, format)
+    if (this.options.cache) {
+      response = this.getFromCache(cacheKey)
+    }
+
+    if (!response) {
+      response = (await axios({
+        url: requestString,
+        responseType: 'arraybuffer',
+        headers: {
+          'User-Agent': this.options.formatAgents[format]
+        }
+      })).data
+      this.saveToCache(cacheKey, response)
+    }
+
+    return response
   }
 
   async requestFontsCSS (format) {
