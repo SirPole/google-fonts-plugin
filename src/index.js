@@ -79,7 +79,7 @@ class GoogleFontsWebpackPlugin {
 
   getCacheKey (requestUrl, format) {
     const hashedUrl = crypto.createHash('sha1').update(requestUrl).digest('hex')
-    return `${format}-${hashedUrl}.css`
+    return `${format}-${hashedUrl}`
   }
 
   getFromCache (key) {
