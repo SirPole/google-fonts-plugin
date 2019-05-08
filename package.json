@@ -9,7 +9,9 @@
     "test": "jest --coverage --env=node",
     "posttest": "codecov",
     "test-watch": "jest --watch --env=node",
-    "build": "babel src --out-dir dist"
+    "build": "babel src --out-dir dist",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -56,7 +58,8 @@
     "axios": "^0.18.0",
     "find-cache-dir": "^2.0.0",
     "neon-js": "^1.1.2",
-    "pkg-up": "^2.0.0"
+    "pkg-up": "^2.0.0",
+    "snyk": "^1.162.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -72,5 +75,6 @@
     "standard": "^12.0.1",
     "webpack": "^4.28.2",
     "webpack-cli": "^3.1.2"
-  }
+  },
+  "snyk": true
 }
