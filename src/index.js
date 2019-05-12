@@ -44,31 +44,60 @@ class GoogleFontsWebpackPlugin {
   }
 
   constructor (options) {
-    this.options = {}
-    if (typeof options === 'object') {
-      Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, options)
-    } else if (typeof options === 'string') {
-      let file = fs.readFileSync(options, 'utf8')
-      let fileOptions = {}
-      if (/\.neon$/.test(options)) {
-        fileOptions = neon.decode(file.replace(/\r\n/g, '\n'), 'object')
-      } else {
-        fileOptions = JSON.parse(file)
-      }
-      Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, this.getConfig(fileOptions))
-    } else {
-      let file = fs.readFileSync(pkgUp.sync(), 'utf8')
-      let fileOptions = JSON.parse(file)
-      Object.assign(this.options, GoogleFontsWebpackPlugin.defaultOptions, this.getConfig(fileOptions))
-    }
+    this.inputOptions = options
+    this.optionsFile = ''
+    this.getOptions()
   }
 
-  getConfig (options) {
+  getOptions () {
+    let parsedOptions = {}
+
+    if (typeof this.inputOptions === 'object') {
+      parsedOptions = this.inputOptions
+    } else if (typeof this.inputOptions === 'string') {
+      parsedOptions = this.getOptionsFromFile(this.inputOptions)
+    } else {
+      parsedOptions = this.getOptionsFromPackage()
+    }
+
+    this.options = Object.assign({}, GoogleFontsWebpackPlugin.defaultOptions, parsedOptions)
+  }
+
+  getOptionsFromFile (optionsFile) {
+    this.optionsFile = optionsFile
+    const file = fs.readFileSync(this.optionsFile, 'utf8')
+    let fileOptions = {}
+
+    if (/\.neon$/.test(this.optionsFile)) {
+      fileOptions = this.parseNeon(file)
+    } else {
+      fileOptions = this.parseJson(file)
+    }
+
+    return this.findConfig(fileOptions)
+  }
+
+  parseJson (file) {
+    return JSON.parse(file)
+  }
+
+  parseNeon (file) {
+    return neon.decode(file.replace(/\r\n/g, '\n'), 'object')
+  }
+
+  getOptionsFromPackage () {
+    this.optionsFile = pkgUp.sync()
+    const file = fs.readFileSync(this.optionsFile, 'utf8')
+
+    return this.findConfig(this.parseJson(file))
+  }
+
+  findConfig (options) {
     for (let key of Object.keys(options)) {
       if (key === GoogleFontsWebpackPlugin.pluginName) {
         return options[key]
       } else if (options[key] instanceof Object && Object.keys(options[key]).length !== 0) {
-        const result = this.getConfig(options[key])
+        const result = this.findConfig(options[key])
 
         if (result) {
           return result
@@ -185,6 +214,9 @@ class GoogleFontsWebpackPlugin {
   apply (compiler) {
     const files = []
 
+    compiler.hooks.environment.tap(GoogleFontsWebpackPlugin.pluginName, this.getOptions)
+    compiler.hooks.watchRun.tap(GoogleFontsWebpackPlugin.pluginName, this.getOptions)
+
     compiler.hooks.make.tapAsync(GoogleFontsWebpackPlugin.pluginName, async (compilation, callback) => {
       for (const format of Object.values(this.options.formats)) {
         const css = await this.requestFontsCSS(format)
@@ -221,6 +253,12 @@ class GoogleFontsWebpackPlugin {
       })
 
       callback()
+    })
+
+    compiler.hooks.afterCompile.tap(GoogleFontsWebpackPlugin.pluginName, (compilation) => {
+      if (this.optionsFile) {
+        compilation.contextDependencies.add(this.optionsFile)
+      }
     })
   }
 }
