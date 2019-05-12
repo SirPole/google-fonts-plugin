@@ -24,3 +24,14 @@ test('Should encode array of font files to base64', async () => {
     '"data:application/x-font-woff2;base64,ZmRzYQ=="'
   ])
 })
+
+test('Should ignore already encoded files', async () => {
+  const googleFonts = new GoogleFontsWebpackPlugin()
+  await expect(googleFonts.requestFontFiles([
+    '"data:application/x-font-woff2;base64,YXNkZg=="',
+    '"data:application/x-font-woff2;base64,ZmRzYQ=="'
+  ])).resolves.toEqual([
+    '"data:application/x-font-woff2;base64,YXNkZg=="',
+    '"data:application/x-font-woff2;base64,ZmRzYQ=="'
+  ])
+})
