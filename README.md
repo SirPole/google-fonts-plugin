@@ -47,20 +47,21 @@ module.exports = {
 ## Options
 Plugin supports configuration in javascript object, json or [neon](https://ne-on.org/) file and also in your package.json.
 
-| **Name**  	| **Type**   	| **Default**           	| **Description**                                               	|
-|-----------	|------------	|-----------------------	|---------------------------------------------------------------	|
-| fonts     	| `Font[]`  	| Roboto                	| Defines which fonts and it's variants and subsets to download 	|
-| formats   	| `String[]` 	| eot, ttf, woff, woff2 	| Specifies which formats to download                           	|
-| encode    	| `Boolean`  	| true                  	| Whether should encode to base64                               	|
-| cache         | `Boolean`     | true                      | Whether FS caching should be checked before sending requests      |
+| **Name**    | **Type**   | **Default**           | **Description**                                                                  |
+|-------------|------------|-----------------------|----------------------------------------------------------------------------------|
+| fonts       | `Font[]`   | Roboto                | Defines which fonts and it's variants and subsets to download                    |
+| formats     | `String[]` | eot, ttf, woff, woff2 | Specifies which formats to download                                              |
+| encode      | `Boolean`  | true                  | Whether should encode to base64                                                  |
+| cache       | `Boolean`  | true                  | Whether FS caching should be checked before sending requests                     |
+| fontDisplay | `String`   | swap                  | When `encode` if false, this will add font-display property. Disables when empty |
 
 ##### Font object
 
-| **Name** 	| **Type**   	| **Default**          | **Description**                                                                                              	|
-|----------	|------------	|----------------------	|--------------------------------------------------------------------------------------------------------------	|
-| family   	| `String`   	| Roboto               	| Sets the font family                                                                                         	|
-| variants 	| `String[]` 	| 400, 400i, 700, 700i 	| Sets the variants of the font family to download, note that not all fonts have the all the possible variants 	|
-| subsets  	| `String[]` 	| latin-ext            	| Sets the subsets, note that not all fonts are available in all subsets                                       	|
+| **Name** | **Type**   | **Default**          | **Description**                                                                                          |
+|----------|------------|----------------------|----------------------------------------------------------------------------------------------------------|
+| family   | `String`   | Roboto               | Sets the font family                                                                                     |
+| variants | `String[]` | 400, 400i, 700, 700i | Sets the variants of the font family to download, note that not all fonts have all the possible variants |
+| subsets  | `String[]` | latin-ext            | Sets the subsets, note that not all fants are available in all subsets                                   |
 
 ## Example configuration
 ###### config.json

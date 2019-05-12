@@ -15,6 +15,7 @@
         "formatAgents": {},
         "chunkName": "",
         "encode": false,
+        "fontDisplay": "",
         "cache": false
       }
     }

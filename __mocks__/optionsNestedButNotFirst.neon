@@ -14,4 +14,5 @@ third:
 			formatAgents: []
 			chunkName: ''
 			encode: no
+			fontDisplay: ''
 			cache: no

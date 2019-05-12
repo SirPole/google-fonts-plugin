@@ -1,10 +1,11 @@
 {
-	"google-fonts-plugin": {
-		"fonts": [],
-		"formats": [],
-		"formatAgents": {},
-		"chunkName": "",
-		"encode": false,
+  "google-fonts-plugin": {
+    "fonts": [],
+    "formats": [],
+    "formatAgents": {},
+    "chunkName": "",
+    "encode": false,
+    "fontDisplay": "",
     "cache": false
-	}
+  }
 }

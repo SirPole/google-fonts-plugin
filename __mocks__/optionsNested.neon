@@ -6,4 +6,5 @@ nested:
 			formatAgents: []
 			chunkName: ''
 			encode: no
+			fontDisplay: ''
 			cache: no

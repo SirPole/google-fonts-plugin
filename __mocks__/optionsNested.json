@@ -1,14 +1,15 @@
 {
-	"nested": {
-		"nested": {
-			"google-fonts-plugin": {
-				"fonts": [],
-				"formats": [],
-				"formatAgents": {},
-				"chunkName": "",
-				"encode": false,
+  "nested": {
+    "nested": {
+      "google-fonts-plugin": {
+        "fonts": [],
+        "formats": [],
+        "formatAgents": {},
+        "chunkName": "",
+        "encode": false,
+        "fontDisplay": "",
         "cache": false
-			}
-		}
-	}
+      }
+    }
+  }
 }

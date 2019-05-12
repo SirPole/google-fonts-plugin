@@ -40,6 +40,7 @@ class GoogleFontsWebpackPlugin {
     },
     chunkName: 'google-fonts',
     encode: true,
+    fontDisplay: 'swap',
     cache: true
   }
 
@@ -207,6 +208,8 @@ class GoogleFontsWebpackPlugin {
       fontsEncoded.forEach((font, index) => {
         css = css.replace(fontUrls[index], font)
       })
+    } else if (typeof this.options.fontDisplay === 'string' && this.options.fontDisplay.length > 0) {
+      css = css.replace(/(src:)/g, `font-display: ${this.options.fontDisplay};\n  $1`)
     }
     return css
   }
