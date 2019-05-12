@@ -211,24 +211,17 @@ class GoogleFontsWebpackPlugin {
     return css
   }
 
-  apply (compiler) {
-    const files = []
+  createHash () {
+    return crypto.createHash('sha1').update(JSON.stringify(this.options)).digest('hex')
+  }
 
-    compiler.hooks.environment.tap(GoogleFontsWebpackPlugin.pluginName, this.getOptions)
-    compiler.hooks.watchRun.tap(GoogleFontsWebpackPlugin.pluginName, this.getOptions)
+  apply (compiler) {
+    compiler.hooks.environment.tap(GoogleFontsWebpackPlugin.pluginName, this.getOptions.bind(this))
+
+    compiler.hooks.watchRun.tap(GoogleFontsWebpackPlugin.pluginName, this.getOptions.bind(this))
 
     compiler.hooks.make.tapAsync(GoogleFontsWebpackPlugin.pluginName, async (compilation, callback) => {
-      for (const format of Object.values(this.options.formats)) {
-        const css = await this.requestFontsCSS(format)
-        const file = format + '.css'
-        files.push(file)
-
-        compilation.assets[file] = {
-          source: () => css,
-          size: () => Buffer.byteLength(css, 'utf8')
-        }
-      }
-
+      // Create chunk and add dummy module
       const chunk = compilation.addChunk(this.options.chunkName)
       const webpackModule = new RawModule('', this.options.chunkName + '-module')
       webpackModule.buildInfo = {}
@@ -236,12 +229,18 @@ class GoogleFontsWebpackPlugin {
       webpackModule.hash = ''
       chunk.addModule(webpackModule)
 
+      for (const format of Object.values(this.options.formats)) {
+        const css = await this.requestFontsCSS(format)
+        compilation.assets[format + '.css'] = {
+          source: () => css,
+          size: () => Buffer.byteLength(css, 'utf8')
+        }
+      }
+
       compilation.hooks.optimizeAssets.tapAsync(GoogleFontsWebpackPlugin.pluginName, async (assets, callback) => {
-        const chunk = compilation.namedChunks.get(this.options.chunkName)
-        delete compilation.assets[chunk.files[0]]
-        chunk.files = files
-        for (const file of files) {
-          let css = await this.encodeFonts(assets[file].source())
+        for (const format of Object.values(this.options.formats)) {
+          const file = format + '.css'
+          const css = await this.encodeFonts(assets[file].source())
 
           compilation.assets[file] = {
             source: () => css,
@@ -252,7 +251,25 @@ class GoogleFontsWebpackPlugin {
         callback()
       })
 
+      compilation.hooks.afterOptimizeChunkAssets.tap(GoogleFontsWebpackPlugin.pluginName, () => {
+        const chunk = compilation.chunks.filter(chunk => chunk.name === this.options.chunkName)[0]
+        for (const format of Object.values(this.options.formats)) {
+          chunk.files.push(format + '.css')
+        }
+      })
+
+      compilation.hooks.chunkHash.tap(GoogleFontsWebpackPlugin.pluginName, (chunk, chunkHash) => {
+        if (chunk.name === this.options.chunkName) {
+          chunkHash.digest = this.createHash.bind(this)
+        }
+      })
+
       callback()
+    })
+
+    compiler.hooks.emit.tap(GoogleFontsWebpackPlugin.pluginName, (compilation) => {
+      const chunk = compilation.chunks.filter(chunk => chunk.name === this.options.chunkName)[0]
+      delete compilation.assets[chunk.files[0]]
     })
 
     compiler.hooks.afterCompile.tap(GoogleFontsWebpackPlugin.pluginName, (compilation) => {
