@@ -61,7 +61,7 @@ Plugin supports configuration in javascript object, json or [neon](https://ne-on
 |----------|------------|----------------------|----------------------------------------------------------------------------------------------------------|
 | family   | `String`   | Roboto               | Sets the font family                                                                                     |
 | variants | `String[]` | 400, 400i, 700, 700i | Sets the variants of the font family to download, note that not all fonts have all the possible variants |
-| subsets  | `String[]` | latin-ext            | Sets the subsets, note that not all fants are available in all subsets                                   |
+| subsets  | `String[]` | latin-ext            | Sets the subsets, note that not all fonts are available in all subsets                                   |
 
 ## Example configuration
 ###### config.json
