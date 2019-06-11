@@ -23,7 +23,8 @@ class GoogleFontsWebpackPlugin {
         subsets: [
           'latin',
           'latin-ext'
-        ]
+        ],
+        text: ''
       }
     ],
     formats: [
@@ -136,14 +137,17 @@ class GoogleFontsWebpackPlugin {
 
   createRequestStrings () {
     return Object.values(this.options.fonts).map(item => {
+      let requestString = 'https://fonts.googleapis.com/css?'
       if (item.family) {
-        let requestString = 'https://fonts.googleapis.com/css?family=' + item.family.replace(/\s/gi, '+')
+        requestString += 'family=' + item.family.replace(/\s/gi, '+')
 
         if (item.variants) {
           requestString += ':' + Object.values(item.variants).join(',')
         }
 
-        if (item.subsets) {
+        if (item.text) {
+          requestString += '&text=' + item.text
+        } else if (item.subsets) {
           requestString += '&subset=' + Object.values(item.subsets).join(',')
         }
 

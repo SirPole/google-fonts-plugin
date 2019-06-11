@@ -57,11 +57,12 @@ Plugin supports configuration in javascript object, json or [neon](https://ne-on
 
 ##### Font object
 
-| **Name** | **Type**   | **Default**          | **Description**                                                                                          |
-|----------|------------|----------------------|----------------------------------------------------------------------------------------------------------|
-| family   | `String`   | Roboto               | Sets the font family                                                                                     |
-| variants | `String[]` | 400, 400i, 700, 700i | Sets the variants of the font family to download, note that not all fonts have all the possible variants |
-| subsets  | `String[]` | latin-ext            | Sets the subsets, note that not all fants are available in all subsets                                   |
+| **Name** | **Type**   | **Default**          | **Description**                                                                                                                                                                                        |
+|----------|------------|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| family   | `String`   | Roboto               | Sets the font family                                                                                                                                                                                   |
+| variants | `String[]` | 400, 400i, 700, 700i | Sets the variants of the font family to download, note that not all fonts have all the possible variants                                                                                               |
+| subsets  | `String[]` | latin-ext            | Sets the subsets, note that not all fants are available in all subsets                                                                                                                                 |
+| text     | `String`   |                      | Only downloads specific characters contained in the string provided, more information [here](https://developers.google.com/fonts/docs/getting_started#optimizing_your_font_requests). Ignores subsets. |
 
 ## Example configuration
 ###### config.json

@@ -79,6 +79,35 @@ test('Does create request string with multiple subsets', () => {
   expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&subset=greek-ext,latin-ext,vietnamese'])
 })
 
+test('Does create request string with text specified', () => {
+  const googleFonts = new GoogleFontsWebpackPlugin({
+    fonts: [
+      {
+        family: 'Roboto',
+        subsets: [
+          'greek-ext',
+          'latin-ext',
+          'vietnamese'
+        ],
+        text: 'asdf'
+      }
+    ]
+  })
+  expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&text=asdf'])
+})
+
+test('Does create request string with text specified and ignores subsets', () => {
+  const googleFonts = new GoogleFontsWebpackPlugin({
+    fonts: [
+      {
+        family: 'Roboto',
+        text: 'asdf'
+      }
+    ]
+  })
+  expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&text=asdf'])
+})
+
 test('Does create multiple request strings', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({
     fonts: [
