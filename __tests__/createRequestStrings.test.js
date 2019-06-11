@@ -79,7 +79,7 @@ test('Does create request string with multiple subsets', () => {
   expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&subset=greek-ext,latin-ext,vietnamese'])
 })
 
-test('Does create request string with text specified', () => {
+test('Does create request string with text specified and ignores subsets', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({
     fonts: [
       {
@@ -96,7 +96,7 @@ test('Does create request string with text specified', () => {
   expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&text=asdf'])
 })
 
-test('Does create request string with text specified and ignores subsets', () => {
+test('Does create request string with text specified', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({
     fonts: [
       {
