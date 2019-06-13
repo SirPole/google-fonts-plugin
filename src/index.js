@@ -136,19 +136,25 @@ class GoogleFontsWebpackPlugin {
   }
 
   createRequestStrings () {
-    return Object.values(this.options.fonts).map(item => {
+    const { fonts, encode, fontDisplay } = this.options
+    return Object.values(fonts).map(item => {
+      const { family, variants, text, subsets} = item
       let requestString = 'https://fonts.googleapis.com/css?'
-      if (item.family) {
-        requestString += 'family=' + item.family.replace(/\s/gi, '+')
+      if (family) {
+        requestString += 'family=' + family.replace(/\s/gi, '+')
 
-        if (item.variants) {
-          requestString += ':' + Object.values(item.variants).join(',')
+        if (variants) {
+          requestString += ':' + Object.values(variants).join(',')
         }
 
-        if (item.text) {
-          requestString += '&text=' + item.text
-        } else if (item.subsets) {
-          requestString += '&subset=' + Object.values(item.subsets).join(',')
+        if (text) {
+          requestString += '&text=' + text
+        } else if (subsets) {
+          requestString += '&subset=' + Object.values(subsets).join(',')
+        }
+
+        if (!encode && typeof fontDisplay === 'string' && fontDisplay.length > 0) {
+          requestString += '&display=' + fontDisplay
         }
 
         return requestString
@@ -212,8 +218,6 @@ class GoogleFontsWebpackPlugin {
       fontsEncoded.forEach((font, index) => {
         css = css.replace(fontUrls[index], font)
       })
-    } else if (typeof this.options.fontDisplay === 'string' && this.options.fontDisplay.length > 0) {
-      css = css.replace(/(src:)/g, `font-display: ${this.options.fontDisplay};\n  $1`)
     }
     return css
   }

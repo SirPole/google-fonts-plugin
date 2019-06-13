@@ -108,6 +108,43 @@ test('Does create request string with text specified', () => {
   expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&text=asdf'])
 })
 
+test('Does create request string without font-display with encoding enabled', () => {
+  const googleFonts = new GoogleFontsWebpackPlugin({
+    fonts: [
+      {
+        family: 'Roboto'
+      }
+    ],
+    encode: true
+  })
+  expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto'])
+})
+
+test('Does create request string with font-display when encoding is disabled', () => {
+  const googleFonts = new GoogleFontsWebpackPlugin({
+    fonts: [
+      {
+        family: 'Roboto'
+      }
+    ],
+    encode: false
+  })
+  expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&display=swap'])
+})
+
+test('Does create request string with custom font-display when encoding is disabled', () => {
+  const googleFonts = new GoogleFontsWebpackPlugin({
+    fonts: [
+      {
+        family: 'Roboto'
+      }
+    ],
+    encode: false,
+    fontDisplay: 'asdf'
+  })
+  expect(googleFonts.createRequestStrings()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&display=asdf'])
+})
+
 test('Does create multiple request strings', () => {
   const googleFonts = new GoogleFontsWebpackPlugin({
     fonts: [
