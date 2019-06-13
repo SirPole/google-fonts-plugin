@@ -138,7 +138,7 @@ class GoogleFontsWebpackPlugin {
   createRequestStrings () {
     const { fonts, encode, fontDisplay } = this.options
     return Object.values(fonts).map(item => {
-      const { family, variants, text, subsets} = item
+      const { family, variants, text, subsets } = item
       let requestString = 'https://fonts.googleapis.com/css?'
       if (family) {
         requestString += 'family=' + family.replace(/\s/gi, '+')
@@ -263,7 +263,7 @@ class GoogleFontsWebpackPlugin {
       })
 
       compilation.hooks.afterOptimizeChunkAssets.tap(GoogleFontsWebpackPlugin.pluginName, () => {
-        const chunk = compilation.chunks.filter(chunk => chunk.name === this.options.chunkName)[0]
+        const chunk = compilation.namedChunks.get(this.options.chunkName)
         for (const format of Object.values(this.options.formats)) {
           chunk.files.push(format + '.css')
         }
@@ -279,7 +279,7 @@ class GoogleFontsWebpackPlugin {
     })
 
     compiler.hooks.emit.tap(GoogleFontsWebpackPlugin.pluginName, (compilation) => {
-      const chunk = compilation.chunks.filter(chunk => chunk.name === this.options.chunkName)[0]
+      const chunk = compilation.namedChunks.get(this.options.chunkName)
       delete compilation.assets[chunk.files[0]]
     })
 
