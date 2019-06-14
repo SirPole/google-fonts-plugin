@@ -2,11 +2,11 @@
 
 import path from 'path'
 import webpack from 'webpack'
-import webpackConfig from '../__mocks__/webpack.config.js'
-import GoogleFontsWebpackPlugin from '../src'
+import webpackConfig from '../../__mocks__/webpack.config.js'
+import Plugin from '../../src/Plugin'
 
 test('Should apply to webpack 4', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin()
+  const googleFonts = new Plugin()
   const compiler = webpack(webpackConfig)
   const environment = jest.spyOn(compiler.hooks.environment, 'tap')
   const make = jest.spyOn(compiler.hooks.make, 'tapAsync')
@@ -21,7 +21,7 @@ test('Should apply to webpack 4', () => {
 })
 
 test('Should apply with config file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin(path.resolve('__mocks__', 'options.json'))
+  const googleFonts = new Plugin(path.resolve('__mocks__', 'options.json'))
   const compiler = webpack(webpackConfig)
   const environment = jest.spyOn(compiler.hooks.environment, 'tap')
   const make = jest.spyOn(compiler.hooks.make, 'tapAsync')
@@ -36,7 +36,7 @@ test('Should apply with config file', () => {
 })
 
 test('Should apply with config object', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin({
+  const googleFonts = new Plugin({
     fonts: []
   })
   const compiler = webpack(webpackConfig)

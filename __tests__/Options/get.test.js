@@ -1,14 +1,14 @@
 'use strict'
 
-import GoogleFontsWebpackPlugin from '../src'
+import Options from '../../src/Options'
 
 test('Can initialize with default options', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin()
-  expect(googleFonts.options).toEqual(GoogleFontsWebpackPlugin.defaultOptions)
+  const options = new Options()
+  expect(options.get()).toEqual(Options.defaultOptions)
 })
 
 test('Can overwrite default options object', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin({
+  const options = new Options({
     fonts: [],
     formats: [],
     formatAgents: {},
@@ -17,7 +17,7 @@ test('Can overwrite default options object', () => {
     fontDisplay: '',
     cache: false
   })
-  expect(googleFonts.options).toEqual({
+  expect(options.get()).toEqual({
     fonts: [],
     formats: [],
     formatAgents: {},
@@ -29,8 +29,8 @@ test('Can overwrite default options object', () => {
 })
 
 test('Can load configuration from json file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/options.json')
-  expect(googleFonts.options).toEqual({
+  const options = new Options('__mocks__/options.json')
+  expect(options.get()).toEqual({
     fonts: [],
     formats: [],
     formatAgents: {},
@@ -42,8 +42,8 @@ test('Can load configuration from json file', () => {
 })
 
 test('Can load nested configuration from json file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsNested.json')
-  expect(googleFonts.options).toEqual({
+  const options = new Options('__mocks__/optionsNested.json')
+  expect(options.get()).toEqual({
     fonts: [],
     formats: [],
     formatAgents: {},
@@ -55,8 +55,8 @@ test('Can load nested configuration from json file', () => {
 })
 
 test('Can load nested configuration from json file while not being the first', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsNestedButNotFirst.json')
-  expect(googleFonts.options).toEqual({
+  const options = new Options('__mocks__/optionsNestedButNotFirst.json')
+  expect(options.get()).toEqual({
     fonts: [],
     formats: [],
     formatAgents: {},
@@ -68,13 +68,13 @@ test('Can load nested configuration from json file while not being the first', (
 })
 
 test('Will fallback to default options if it\'s not present in json file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsMissing.json')
-  expect(googleFonts.options).toEqual(GoogleFontsWebpackPlugin.defaultOptions)
+  const options = new Options('__mocks__/optionsMissing.json')
+  expect(options.get()).toEqual(Options.defaultOptions)
 })
 
 test('Can load configuration from neon file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/options.neon')
-  expect(googleFonts.options).toEqual({
+  const options = new Options('__mocks__/options.neon')
+  expect(options.get()).toEqual({
     fonts: {},
     formats: {},
     formatAgents: {},
@@ -86,8 +86,8 @@ test('Can load configuration from neon file', () => {
 })
 
 test('Can load configuration from nested neon file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsNested.neon')
-  expect(googleFonts.options).toEqual({
+  const options = new Options('__mocks__/optionsNested.neon')
+  expect(options.get()).toEqual({
     fonts: {},
     formats: {},
     formatAgents: {},
@@ -99,8 +99,8 @@ test('Can load configuration from nested neon file', () => {
 })
 
 test('Can load nested configuration from json file while not being the first', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsNestedButNotFirst.neon')
-  expect(googleFonts.options).toEqual({
+  const options = new Options('__mocks__/optionsNestedButNotFirst.neon')
+  expect(options.get()).toEqual({
     fonts: {},
     formats: {},
     formatAgents: {},
@@ -112,6 +112,6 @@ test('Can load nested configuration from json file while not being the first', (
 })
 
 test('Will fallback to default options if it\'s not present in neon file', () => {
-  const googleFonts = new GoogleFontsWebpackPlugin('__mocks__/optionsMissing.neon')
-  expect(googleFonts.options).toEqual(GoogleFontsWebpackPlugin.defaultOptions)
+  const options = new Options('__mocks__/optionsMissing.neon')
+  expect(options.get()).toEqual(Options.defaultOptions)
 })

@@ -9,4 +9,8 @@ fs.writeFileSync = (file, content) => {
   }
 }
 
+fs.existsSync = file => file.endsWith('keep')
+
+fs.readFileSync = (file, encoding) => 'asdf'
+
 module.exports = fs
