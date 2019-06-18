@@ -36,7 +36,8 @@ class Options {
     chunkName: 'google-fonts',
     encode: true,
     fontDisplay: 'swap',
-    cache: true
+    cache: true,
+    filename: '[name].css'
   }
 
   constructor (input) {

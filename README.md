@@ -47,13 +47,14 @@ module.exports = {
 ## Options
 Plugin supports configuration in javascript object, json or [neon](https://ne-on.org/) file and also in your package.json.
 
-| **Name**    | **Type**   | **Default**           | **Description**                                                                  |
-|-------------|------------|-----------------------|----------------------------------------------------------------------------------|
-| fonts       | `Font[]`   | Roboto                | Defines which fonts and it's variants and subsets to download                    |
-| formats     | `String[]` | eot, ttf, woff, woff2 | Specifies which formats to download                                              |
-| encode      | `Boolean`  | true                  | Whether should encode to base64                                                  |
-| cache       | `Boolean`  | true                  | Whether FS caching should be checked before sending requests                     |
-| fontDisplay | `String`   | swap                  | When `encode` if false, this will add font-display property. Disables when empty |
+| **Name**    | **Type**   | **Default**           | **Description**                                                                      |
+|-------------|------------|-----------------------|--------------------------------------------------------------------------------------|
+| fonts       | `Font[]`   | Roboto                | Defines which fonts and it's variants and subsets to download                        |
+| formats     | `String[]` | eot, ttf, woff, woff2 | Specifies which formats to download                                                  |
+| encode      | `Boolean`  | true                  | Whether should encode to base64                                                      |
+| cache       | `Boolean`  | true                  | Whether FS caching should be checked before sending requests                         |
+| fontDisplay | `String`   | swap                  | When `encode` if false, this will add font-display property. Disables when empty     |
+| filename    | `String`   | [name].css            | Defines filename template. Valid substitutions are `[name]`, `[hash]`, `[chunkhash]` |
 
 ##### Font object
 

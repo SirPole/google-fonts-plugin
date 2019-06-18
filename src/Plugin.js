@@ -11,7 +11,27 @@ class Plugin {
     this.fonts = new Fonts(this.options)
   }
 
-  apply (compiler) {
+  getFilename = (format, compilation) => {
+    let filename = this.options.filename
+    const replaceMatrix = {
+      name: format,
+      hash: compilation.hash,
+      chunkhash: Chunk.hash(this.options)
+    }
+
+    Object.keys(replaceMatrix).forEach(key => {
+      let regex = new RegExp(`\\[${key}:?(\\d+)?\\]`, 'gi')
+      let result = regex.exec(filename)
+
+      if (result) {
+        filename = filename.replace(regex, replaceMatrix[key].substring(0, result[1] ? Number(result[1]) : Infinity))
+      }
+    })
+
+    return filename
+  }
+
+  apply = compiler => {
     compiler.hooks.environment.tap(Plugin.pluginName, this.options.get)
 
     compiler.hooks.watchRun.tap(Plugin.pluginName, this.options.get)
@@ -22,7 +42,7 @@ class Plugin {
 
       for (const format of Object.values(this.options.formats)) {
         const css = await this.fonts.requestFontsCSS(format)
-        compilation.assets[format + '.css'] = {
+        compilation.assets[this.getFilename(format, compilation)] = {
           source: () => css,
           size: () => Buffer.byteLength(css, 'utf8')
         }
@@ -30,7 +50,7 @@ class Plugin {
 
       compilation.hooks.optimizeAssets.tapAsync(Plugin.pluginName, async (assets, callback) => {
         for (const format of Object.values(this.options.formats)) {
-          const file = format + '.css'
+          const file = this.getFilename(format, compilation)
           const css = await this.fonts.encode(assets[file].source())
 
           compilation.assets[file] = {
@@ -45,13 +65,13 @@ class Plugin {
       compilation.hooks.afterOptimizeChunkAssets.tap(Plugin.pluginName, () => {
         const fontsChunk = chunk.get()
         for (const format of Object.values(this.options.formats)) {
-          fontsChunk.files.push(format + '.css')
+          fontsChunk.files.push(this.getFilename(format, compilation))
         }
       })
 
       compilation.hooks.chunkHash.tap(Plugin.pluginName, (chunk, chunkHash) => {
         if (chunk.name === this.options.chunkName) {
-          chunkHash.digest = chunk.hash(this.options)
+          chunkHash.digest = () => Chunk.hash(this.options)
         }
       })
 

@@ -16,7 +16,8 @@
         "chunkName": "",
         "encode": false,
         "fontDisplay": "",
-        "cache": false
+        "cache": false,
+        "filename": ""
       }
     }
   }

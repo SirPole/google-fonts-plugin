@@ -15,7 +15,8 @@ test('Can overwrite default options object', () => {
     chunkName: '',
     encode: false,
     fontDisplay: '',
-    cache: false
+    cache: false,
+    filename: ''
   })
   expect(options.get()).toEqual({
     fonts: [],
@@ -24,7 +25,8 @@ test('Can overwrite default options object', () => {
     chunkName: '',
     encode: false,
     fontDisplay: '',
-    cache: false
+    cache: false,
+    filename: ''
   })
 })
 
@@ -37,7 +39,8 @@ test('Can load configuration from json file', () => {
     chunkName: '',
     encode: false,
     fontDisplay: '',
-    cache: false
+    cache: false,
+    filename: ''
   })
 })
 
@@ -50,7 +53,8 @@ test('Can load nested configuration from json file', () => {
     chunkName: '',
     encode: false,
     fontDisplay: '',
-    cache: false
+    cache: false,
+    filename: ''
   })
 })
 
@@ -63,7 +67,8 @@ test('Can load nested configuration from json file while not being the first', (
     chunkName: '',
     encode: false,
     fontDisplay: '',
-    cache: false
+    cache: false,
+    filename: ''
   })
 })
 
@@ -81,7 +86,8 @@ test('Can load configuration from neon file', () => {
     chunkName: '',
     encode: false,
     fontDisplay: '',
-    cache: false
+    cache: false,
+    filename: ''
   })
 })
 
@@ -94,7 +100,8 @@ test('Can load configuration from nested neon file', () => {
     chunkName: '',
     encode: false,
     fontDisplay: '',
-    cache: false
+    cache: false,
+    filename: ''
   })
 })
 
@@ -107,7 +114,8 @@ test('Can load nested configuration from json file while not being the first', (
     chunkName: '',
     encode: false,
     fontDisplay: '',
-    cache: false
+    cache: false,
+    filename: ''
   })
 })
 

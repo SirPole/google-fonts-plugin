@@ -6,3 +6,4 @@ google-fonts-plugin:
 	encode: no
 	fontDisplay: ''
 	cache: no
+	filename: ''
