@@ -5,12 +5,12 @@ const fs = jest.genMockFromModule('fs')
 fs.writeFileSync = (file, content) => {
   return {
     file: file,
-    content: content
+    content: content,
   }
 }
 
 fs.existsSync = file => file.endsWith('keep')
 
-fs.readFileSync = (file, encoding) => 'asdf'
+fs.readFileSync = () => 'asdf'
 
 module.exports = fs

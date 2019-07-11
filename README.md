@@ -10,7 +10,7 @@
 
 Supports various font formats, currently `eot`, `ttf`, `woff` and `woff2`.
 
-Exports to format specific and minified css files, which you can serve to your clients.
+Exports to format specific css files, which you can serve to your clients.
 
 > **Note**: Current version works with Webpack 4. For webpack 3, use version **1.0.3**
 
@@ -45,16 +45,16 @@ module.exports = {
 ```
 
 ## Options
-Plugin supports configuration in javascript object, json or [neon](https://ne-on.org/) file and also in your package.json.
+Plugin supports configuration in javascript object, json file and also in your package.json.
 
-| **Name**    | **Type**   | **Default**           | **Description**                                                                      |
-|-------------|------------|-----------------------|--------------------------------------------------------------------------------------|
-| fonts       | `Font[]`   | Roboto                | Defines which fonts and it's variants and subsets to download                        |
-| formats     | `String[]` | eot, ttf, woff, woff2 | Specifies which formats to download                                                  |
-| encode      | `Boolean`  | true                  | Whether should encode to base64                                                      |
-| cache       | `Boolean`  | true                  | Whether FS caching should be checked before sending requests                         |
-| fontDisplay | `String`   | swap                  | When `encode` if false, this will add font-display property. Disables when empty     |
-| filename    | `String`   | [name].css            | Defines filename template. Valid substitutions are `[name]`, `[hash]`, `[chunkhash]` |
+| **Name**    | **Type**   | **Default** | **Description**                                                                          |
+|-------------|------------|-------------|------------------------------------------------------------------------------------------|
+| fonts       | `Font[]`   | Roboto      | Defines which fonts and it's variants and subsets to download.                           |
+| formats     | `String[]` | woff, woff2 | Specifies which formats to download. Valid options are `eot`, `ttf`, `woff` and `woff2`. |
+| encode      | `Boolean`  | true        | Whether should encode to base64.                                                         |
+| cache       | `Boolean`  | true        | Whether FS caching should be checked before sending requests.                            |
+| fontDisplay | `String`   | swap        | When `encode` if false, this will add font-display property. Disables when empty.        |
+| filename    | `String`   | [name].css  | Defines filename template. Valid substitutions are `[name]`, `[hash]`, `[chunkhash]`.    |
 
 ##### Font object
 
@@ -92,22 +92,6 @@ Plugin supports configuration in javascript object, json or [neon](https://ne-on
 }
 ```
 
-###### config.neon
-``` neon
-google-fonts-plugin:
-	fonts: 
-		- 
-			family: Roboto
-			variants:
-				- 400
-				- 400i
-				- 700
-				- 700i
-			subsets:
-				- latin-ext
-	formats: 
-		- woff
-		- woff2
-```
-
 > **Note**: For Google's material icons, simply set `Material Icons` as font-family
+
+> **Note**: From version 5.0.0, neon support is dropped to simplify the plugin itself. If you've used neon before, parse it yourself and pass the resulting object to the plugin instead. See release notes for implementation example.

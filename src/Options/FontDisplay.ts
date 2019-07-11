@@ -4,7 +4,7 @@ enum FontDisplay {
   SWAP = 'swap',
   FALLBACK = 'fallback',
   OPTIONAL = 'optional',
-  NONE = ''
+  NONE = '',
 }
 
 export default FontDisplay

@@ -5,7 +5,7 @@
   "main": "dist/Plugin.js",
   "scripts": {
     "prepublishOnly": "npm test && npm run build",
-    "pretest": "standard *.ts",
+    "pretest": "eslint --fix --ext .js,.ts src/",
     "test": "jest --coverage --env=node",
     "posttest": "codecov",
     "test-watch": "jest --watch --env=node",
@@ -28,18 +28,6 @@
     "url": "https://github.com/SirPole/google-fonts-plugin/issues"
   },
   "homepage": "https://github.com/SirPole/google-fonts-plugin#readme",
-  "standard": {
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "@typescript-eslint/eslint-plugin"
-    ],
-    "env": {
-      "node": true,
-      "commonjs": true,
-      "es6": true,
-      "jest": true
-    }
-  },
   "jest": {
     "roots": [
       "<rootDir>/src"
@@ -54,10 +42,47 @@
       "json"
     ]
   },
+  "eslintConfig": {
+    "env": {
+      "commonjs": true,
+      "es6": true,
+      "jest": true,
+      "node": true
+    },
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "prettier/@typescript-eslint",
+      "plugin:prettier/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "sourceType": "module",
+      "ecmaVersion": 2018
+    }
+  },
+  "prettier": {
+    "endOfLine": "lf",
+    "parser": "typescript",
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "src/**/*.ts": [
+        "eslint --fix",
+        "git add"
+      ]
+    }
+  },
   "dependencies": {
     "axios": "^0.19.0",
     "find-cache-dir": "^3.0.0",
-    "neon-js": "^1.1.2",
     "pkg-up": "^3.1.0"
   },
   "devDependencies": {
@@ -65,12 +90,17 @@
     "@types/jest": "^24.0.15",
     "@types/node": "^12.0.8",
     "@types/webpack": "^4.4.32",
-    "@typescript-eslint/eslint-plugin": "^1.10.2",
-    "@typescript-eslint/parser": "^1.10.2",
+    "@typescript-eslint/eslint-plugin": "1.11.0",
+    "@typescript-eslint/parser": "1.11.0",
     "axios-mock-adapter": "^1.16.0",
     "codecov": "^3.5.0",
+    "eslint": "6.0.1",
+    "eslint-config-prettier": "6.0.0",
+    "eslint-plugin-prettier": "3.1.0",
+    "husky": "^3.0.0",
     "jest": "^24.8.0",
-    "standard": "^12.0.1",
+    "lint-staged": "8.2.1",
+    "prettier": "1.18.2",
     "ts-jest": "^24.0.2",
     "typescript": "^3.5.2",
     "webpack": "^4.34.0",
