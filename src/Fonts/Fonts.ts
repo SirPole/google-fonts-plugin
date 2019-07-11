@@ -1,22 +1,28 @@
-const axios = require('axios')
-const Cache = require('./Cache')
-const Options = require('./Options')
+import axios from 'axios'
+import Cache from '../Cache/Cache'
+import Font from '../Options/Font'
+import Options from '../Options/Options'
 
-class Fonts {
-  constructor (options = Options.defaultOptions) {
+export default class Fonts {
+  private readonly options : Options
+
+  constructor (options ? : Options) {
+    if (!options) {
+      options = new Options()
+    }
     this.options = options
   }
 
-  createRequestUrls = () => {
+  createRequestUrls = () : Array<string> => {
     const { fonts, encode, fontDisplay } = this.options
     if (!fonts) {
-      return
+      return []
     }
 
-    return Object.values(fonts).map(item => {
+    return Object.values(fonts).map((item : Font) : string => {
       const { family, variants, text, subsets } = item
       if (!family) {
-        return
+        return ''
       }
 
       let requestString = `https://fonts.googleapis.com/css?family=${family.replace(/\s/gi, '+')}`
@@ -36,17 +42,17 @@ class Fonts {
       }
 
       return requestString
-    })
+    }).filter((url : string) => url.length > 0)
   }
 
-  requestFont = async (requestUrl, format, encoding) => {
-    let response
+  requestFont = async (requestUrl : string, format : string, encoding : string) : Promise<string> => {
+    let response : string = ''
     const cacheKey = Cache.key(requestUrl, format)
     if (this.options.cache) {
       response = Cache.get(cacheKey, encoding)
     }
 
-    if (response) {
+    if (response.length > 0) {
       return response
     }
 
@@ -62,15 +68,15 @@ class Fonts {
     return response
   }
 
-  requestFontsCSS = async format => {
+  requestFontsCSS = async (format : string) : Promise<string> => {
     const results = []
-    for (const promise of this.createRequestUrls().map(requestUrl => this.requestFont(requestUrl, format, 'utf8'))) {
+    for (const promise of this.createRequestUrls().map((requestUrl : string) : Promise<string> => this.requestFont(requestUrl, format, 'utf8'))) {
       results.push(await promise)
     }
     return results.join('')
   }
 
-  requestFontFiles = async fontUrls => {
+  requestFontFiles = async (fontUrls : Array<string>) : Promise<Array<string>> => {
     const results = []
     for (const promise of fontUrls.map(this.requestFontFile)) {
       results.push(await promise)
@@ -78,29 +84,37 @@ class Fonts {
     return results
   }
 
-  requestFontFile = async fontUrl => {
+  requestFontFile = async (fontUrl : string) : Promise<string> => {
     if (fontUrl.startsWith('"data:application/')) {
       return fontUrl
     }
 
-    const format = fontUrl.match(new RegExp('(' + Object.values(this.options.formats).join('|') + ')$'))[1]
+    const matches = fontUrl.match(new RegExp('(' + Object.values(this.options.formats).join('|') + ')$'))
+    if (!matches) {
+      return fontUrl
+    }
+
+    const format = matches[1]
     const font = await this.requestFont(fontUrl, format, 'binary')
     return `"data:application/x-font-${format};base64,${Buffer.from(font, 'binary').toString('base64')}"`
   }
 
-  encode = async css => {
+  encode = async (css : string) : Promise<string> => {
     if (!this.options.encode) {
       return css
     }
 
     const regex = /url\((.+?)\)/gi
-    const fontUrls = css.match(regex).map(url => url.replace(regex, '$1'))
+    const matches = css.match(regex)
+    if (!matches) {
+      return css
+    }
+
+    const fontUrls = matches.map((url : string) : string => url.replace(regex, '$1'))
     const fontsEncoded = await this.requestFontFiles(fontUrls)
-    fontsEncoded.forEach((font, index) => {
+    fontsEncoded.forEach((font : string, index : number) => {
       css = css.replace(fontUrls[index], font)
     })
     return css
   }
 }
-
-module.exports = Fonts

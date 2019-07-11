@@ -1,6 +1,7 @@
-const { resolve } = require('path')
+import {resolve} from 'path'
+import {Configuration} from 'webpack'
 
-module.exports = {
+const configuration : Configuration = {
   mode: 'production',
   target: 'web',
   bail: true,
@@ -12,3 +13,5 @@ module.exports = {
     filename: '[name].[hash].js'
   }
 }
+
+export default configuration

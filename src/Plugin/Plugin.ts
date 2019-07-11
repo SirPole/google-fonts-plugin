@@ -1,21 +1,27 @@
-const Chunk = require('./Chunk')
-const Fonts = require('./Fonts')
-const Options = require('./Options')
+import Chunk from '../Chunk/Chunk'
+import Fonts from '../Fonts/Fonts'
+import Options from '../Options/Options'
+import DefaultOptions from '../Options/DefaultOptions'
+import {compilation, Compiler} from 'webpack'
 
-class Plugin {
-  static pluginName = 'google-fonts-plugin'
+export default class Plugin {
+  private static pluginName : string = 'google-fonts-plugin'
+  private readonly options : Options
+  private fonts : Fonts
 
-  constructor (input) {
+  constructor (input ? : DefaultOptions | string) {
     this.options = new Options(input)
     this.options.get()
     this.fonts = new Fonts(this.options)
   }
 
-  getFilename = (format, compilation) => {
+  public static getPluginName = () : string => Plugin.pluginName
+
+  public getFilename = (format : string, compilation : compilation.Compilation) : string => {
     let filename = this.options.filename
-    const replaceMatrix = {
+    const replaceMatrix : { [key : string] : string } = {
       name: format,
-      hash: compilation.hash,
+      hash: compilation.hash || '',
       chunkhash: Chunk.hash(this.options)
     }
 
@@ -31,12 +37,12 @@ class Plugin {
     return filename
   }
 
-  apply = compiler => {
-    compiler.hooks.environment.tap(Plugin.pluginName, this.options.get)
+  public apply = (compiler : Compiler) : void => {
+    compiler.hooks.environment.tap(Plugin.getPluginName(), this.options.get)
 
-    compiler.hooks.watchRun.tap(Plugin.pluginName, this.options.get)
+    compiler.hooks.watchRun.tap(Plugin.getPluginName(), this.options.get)
 
-    compiler.hooks.make.tapAsync(Plugin.pluginName, async (compilation, callback) => {
+    compiler.hooks.make.tapAsync(Plugin.getPluginName(), async (compilation : compilation.Compilation, callback : Function) : Promise<void> => {
       const chunk = new Chunk(compilation, this.options.chunkName)
       chunk.create()
 
@@ -48,7 +54,7 @@ class Plugin {
         }
       }
 
-      compilation.hooks.optimizeAssets.tapAsync(Plugin.pluginName, async (assets, callback) => {
+      compilation.hooks.optimizeAssets.tapAsync(Plugin.getPluginName(), async (assets : { [key : string] : any }, callback : Function) : Promise<void> => {
         for (const format of Object.values(this.options.formats)) {
           const file = this.getFilename(format, compilation)
           const css = await this.fonts.encode(assets[file].source())
@@ -62,31 +68,29 @@ class Plugin {
         callback()
       })
 
-      compilation.hooks.afterOptimizeChunkAssets.tap(Plugin.pluginName, () => {
+      compilation.hooks.afterOptimizeChunkAssets.tap(Plugin.getPluginName(), () : void => {
         const fontsChunk = chunk.get()
         for (const format of Object.values(this.options.formats)) {
           fontsChunk.files.push(this.getFilename(format, compilation))
         }
       })
 
-      compilation.hooks.chunkHash.tap(Plugin.pluginName, (chunk, chunkHash) => {
+      compilation.hooks.chunkHash.tap(Plugin.getPluginName(), (chunk : compilation.Chunk, chunkHash : compilation.ChunkHash) : void => {
         if (chunk.name === this.options.chunkName) {
-          chunkHash.digest = () => Chunk.hash(this.options)
+          chunkHash.digest = () : string => Chunk.hash(this.options)
         }
       })
 
       callback()
     })
 
-    compiler.hooks.emit.tap(Plugin.pluginName, compilation => {
+    compiler.hooks.emit.tap(Plugin.getPluginName(), (compilation : compilation.Compilation) : void => {
       const chunk = new Chunk(compilation, this.options.chunkName).get()
       delete compilation.assets[chunk.files[0]]
     })
 
-    compiler.hooks.afterCompile.tap(Plugin.pluginName, compilation => {
+    compiler.hooks.afterCompile.tap(Plugin.getPluginName(), (compilation : compilation.Compilation) : void => {
       compilation.contextDependencies.add(this.options.file)
     })
   }
 }
-
-module.exports = Plugin
