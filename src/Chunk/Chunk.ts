@@ -1,6 +1,6 @@
 import { createHash } from 'crypto'
 import { compilation as webpackCompilation } from 'webpack'
-import Options from '../Options/Options'
+import DefaultOptions from '../Options/DefaultOptions'
 
 const RawModule = require('webpack/lib/RawModule') // eslint-disable-line @typescript-eslint/no-var-requires
 
@@ -14,7 +14,7 @@ export default class Chunk {
     this.name = name
   }
 
-  public static hash = (options: Options): string =>
+  public static hash = (options: DefaultOptions): string =>
     createHash('sha1')
       .update(JSON.stringify(options))
       .digest('hex')

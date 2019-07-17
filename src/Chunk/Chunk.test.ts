@@ -21,5 +21,5 @@ test('Should create chunk hash from options', (): void => {
 })
 
 test('Should create chunk hash from options', (): void => {
-  expect(Chunk.hash(new Options())).toEqual('3b9eed19beb28891f391c5918029e33a109e120e')
+  expect(Chunk.hash(new Options({}, false).get())).toEqual('bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f')
 })

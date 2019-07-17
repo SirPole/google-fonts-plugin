@@ -73,7 +73,7 @@ export default class Plugin {
 
         compilation.hooks.chunkHash.tap(Plugin.getPluginName(), (chunk, chunkHash): void => {
           if (chunk.name === this.options.chunkName) {
-            chunkHash.digest = (): string => Chunk.hash(this.options)
+            chunkHash.digest = (): string => Chunk.hash(this.options.get())
           }
         })
 
