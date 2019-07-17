@@ -2,14 +2,16 @@
   "name": "google-fonts-plugin",
   "version": "4.1.0",
   "description": "Webpack plugin that downloads fonts from Google Fonts and encodes them to base64.",
-  "main": "dist/Plugin.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prepublishOnly": "npm test && npm run build",
-    "pretest": "eslint --fix --ext .js,.ts src/",
+    "lint": "eslint --ext .js,.ts src/",
+    "lint-fix": "npm run lint -- --fix",
     "test": "jest --coverage --env=node",
     "posttest": "codecov",
     "test-watch": "jest --watch --env=node",
-    "build": "babel src --out-dir dist"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -50,22 +52,32 @@
       "node": true
     },
     "extends": [
+      "standard",
       "plugin:@typescript-eslint/recommended",
+      "prettier",
       "prettier/@typescript-eslint",
-      "plugin:prettier/recommended"
+      "prettier/standard"
+    ],
+    "plugins": [
+      "@typescript-eslint",
+      "prettier",
+      "standard"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
       "sourceType": "module",
       "ecmaVersion": 2018
+    },
+    "rules": {
+      "prettier/prettier": "error"
     }
   },
   "prettier": {
     "endOfLine": "lf",
     "parser": "typescript",
+    "printWidth": 180,
     "semi": false,
-    "singleQuote": true,
-    "trailingComma": "es5"
+    "singleQuote": true
   },
   "husky": {
     "hooks": {
@@ -93,15 +105,23 @@
     "@typescript-eslint/eslint-plugin": "1.11.0",
     "@typescript-eslint/parser": "1.11.0",
     "axios-mock-adapter": "^1.16.0",
+    "clean-webpack-plugin": "^3.0.0",
     "codecov": "^3.5.0",
+    "dts-bundle-webpack": "^1.0.2",
     "eslint": "6.0.1",
     "eslint-config-prettier": "6.0.0",
+    "eslint-config-standard": "^13.0.1",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-prettier": "3.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
     "husky": "^3.0.0",
     "jest": "^24.8.0",
     "lint-staged": "8.2.1",
     "prettier": "1.18.2",
     "ts-jest": "^24.0.2",
+    "ts-loader": "^6.0.4",
     "typescript": "^3.5.2",
     "webpack": "^4.34.0",
     "webpack-cli": "^3.3.4"

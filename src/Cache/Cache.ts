@@ -7,7 +7,7 @@ export default class Cache {
   public static get = (key: string, encoding: string): string => {
     const thunk = findCacheDir({
       name: Plugin.getPluginName(),
-      thunk: true,
+      thunk: true
     })
 
     if (!thunk || !existsSync(thunk(key))) {
@@ -22,15 +22,11 @@ export default class Cache {
       .update(requestUrl)
       .digest('hex')}`
 
-  public static save = (
-    key: string,
-    contents: string,
-    encoding: string
-  ): void => {
+  public static save = (key: string, contents: string, encoding: string): void => {
     const thunk = findCacheDir({
       name: Plugin.getPluginName(),
       create: true,
-      thunk: true,
+      thunk: true
     })
 
     if (!thunk) {

@@ -15,7 +15,7 @@ export default class Fonts {
 
   public createRequestUrls = (): string[] => {
     const { fonts, encode, fontDisplay } = this.options
-    if (!fonts) {
+    if (fonts.length === 0) {
       return []
     }
 
@@ -26,10 +26,7 @@ export default class Fonts {
           return ''
         }
 
-        let requestString = `https://fonts.googleapis.com/css?family=${family.replace(
-          /\s/gi,
-          '+'
-        )}`
+        let requestString = `https://fonts.googleapis.com/css?family=${family.replace(/\s/gi, '+')}`
 
         if (variants) {
           requestString += `:${Object.values(variants).join(',')}`
@@ -41,11 +38,7 @@ export default class Fonts {
           requestString += `&subset=${Object.values(subsets).join(',')}`
         }
 
-        if (
-          !encode &&
-          typeof fontDisplay === 'string' &&
-          fontDisplay.length > 0
-        ) {
+        if (!encode && typeof fontDisplay === 'string' && fontDisplay.length > 0) {
           requestString += `&display=${fontDisplay}`
         }
 
@@ -54,11 +47,7 @@ export default class Fonts {
       .filter((url: string): boolean => url.length > 0)
   }
 
-  public requestFont = async (
-    requestUrl: string,
-    format: string,
-    encoding: string
-  ): Promise<string> => {
+  public requestFont = async (requestUrl: string, format: string, encoding: string): Promise<string> => {
     let response = ''
     const cacheKey = Cache.key(requestUrl, format)
     if (this.options.cache) {
@@ -73,8 +62,8 @@ export default class Fonts {
       url: requestUrl,
       responseType: 'arraybuffer',
       headers: {
-        'User-Agent': this.options.getAgent(format),
-      },
+        'User-Agent': this.options.getAgent(format)
+      }
     })).data
     Cache.save(cacheKey, response, encoding)
 
@@ -82,22 +71,16 @@ export default class Fonts {
   }
 
   public requestFontsCSS = async (format: string): Promise<string> => {
-    const results = []
-    for (const promise of this.createRequestUrls().map(
-      (requestUrl: string): Promise<string> =>
-        this.requestFont(requestUrl, format, 'utf8')
-    )) {
-      results.push(await promise)
-    }
-    return results.join('')
+    const requests = this.createRequestUrls()
+    const promises = requests.map((request: string): Promise<string> => this.requestFont(request, format, 'utf8'))
+    const fonts = await Promise.all(promises)
+    return fonts.join('')
   }
 
   public requestFontFiles = async (fontUrls: string[]): Promise<string[]> => {
-    const results = []
-    for (const promise of fontUrls.map(this.requestFontFile)) {
-      results.push(await promise)
-    }
-    return results
+    const promises = fontUrls.map(this.requestFontFile)
+    const files = await Promise.all(promises)
+    return files
   }
 
   public requestFontFile = async (fontUrl: string): Promise<string> => {
@@ -105,19 +88,14 @@ export default class Fonts {
       return fontUrl
     }
 
-    const matches = fontUrl.match(
-      new RegExp('(' + Object.values(this.options.formats).join('|') + ')$')
-    )
+    const matches = fontUrl.match(new RegExp('(' + Object.values(this.options.formats).join('|') + ')$'))
     if (!matches) {
       return fontUrl
     }
 
     const format = matches[1]
     const font = await this.requestFont(fontUrl, format, 'binary')
-    return `"data:application/x-font-${format};base64,${Buffer.from(
-      font,
-      'binary'
-    ).toString('base64')}"`
+    return `"data:application/x-font-${format};base64,${Buffer.from(font, 'binary').toString('base64')}"`
   }
 
   public encode = async (css: string): Promise<string> => {
@@ -131,9 +109,7 @@ export default class Fonts {
       return css
     }
 
-    const fontUrls = matches.map((url: string): string =>
-      url.replace(regex, '$1')
-    )
+    const fontUrls = matches.map((url: string): string => url.replace(regex, '$1'))
     const fontsEncoded = await this.requestFontFiles(fontUrls)
     fontsEncoded.forEach((font: string, index: number): void => {
       css = css.replace(fontUrls[index], font)

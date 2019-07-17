@@ -1,7 +1,14 @@
 import * as webpack from 'webpack'
-import webpackConfig from '../__mocks__/webpack.config'
 import Chunk from './Chunk'
 import Options from '../Options/Options'
+
+const webpackConfig: webpack.Configuration = {
+  entry: './entry.js',
+  output: {
+    path: '/dist',
+    filename: 'bundle.js'
+  }
+}
 
 test('Should create chunk hash from options', (): void => {
   const compiler = webpack(webpackConfig)
@@ -14,7 +21,5 @@ test('Should create chunk hash from options', (): void => {
 })
 
 test('Should create chunk hash from options', (): void => {
-  expect(Chunk.hash(new Options())).toEqual(
-    '4a7ecb98ff160a5514ddf0bb3b0fb044fdc7d0d7'
-  )
+  expect(Chunk.hash(new Options())).toEqual('6b18268cfa652dd2ad28b06d31cb63eba3b0c72d')
 })

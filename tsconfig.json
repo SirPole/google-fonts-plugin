@@ -4,8 +4,9 @@
     "declaration": true,
     "module": "CommonJS",
     "outDir": "dist",
+    "sourceMap": true,
     "strict": true,
-    "target": "es5",
+    "target": "es2018",
     "typeRoots": [
       "src/types",
       "node_modules/@types"
@@ -16,6 +17,6 @@
   ],
   "exclude": [
     "node_modules",
-    "**/*.(test|spec).ts"
+    "**/*.test.ts"
   ]
 }

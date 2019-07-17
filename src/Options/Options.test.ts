@@ -2,19 +2,22 @@ import Options from './Options'
 
 test('Can initialize with default options', (): void => {
   const options = new Options()
-  expect(options.get()).toEqual(new Options().get())
+  expect(options.get()).toEqual(new Options('', false).get())
 })
 
 test('Can overwrite default options object', (): void => {
-  const options = new Options({
-    fonts: [],
-    formats: [],
-    chunkName: '',
-    encode: false,
-    fontDisplay: '',
-    cache: false,
-    filename: '',
-  })
+  const options = new Options(
+    {
+      fonts: [],
+      formats: [],
+      chunkName: '',
+      encode: false,
+      fontDisplay: '',
+      cache: false,
+      filename: ''
+    },
+    false
+  )
   expect(options.get()).toEqual({
     fonts: [],
     formats: [],
@@ -22,12 +25,12 @@ test('Can overwrite default options object', (): void => {
     encode: false,
     fontDisplay: '',
     cache: false,
-    filename: '',
+    filename: ''
   })
 })
 
 test('Can load configuration from json file', (): void => {
-  const options = new Options('src/__mocks__/options.json')
+  const options = new Options('src/__mocks__/options.json', false)
   expect(options.get()).toEqual({
     fonts: [],
     formats: [],
@@ -35,12 +38,12 @@ test('Can load configuration from json file', (): void => {
     encode: false,
     fontDisplay: '',
     cache: false,
-    filename: '',
+    filename: ''
   })
 })
 
 test('Can load nested configuration from json file', (): void => {
-  const options = new Options('src/__mocks__/optionsNested.json')
+  const options = new Options('src/__mocks__/optionsNested.json', false)
   expect(options.get()).toEqual({
     fonts: [],
     formats: [],
@@ -48,12 +51,12 @@ test('Can load nested configuration from json file', (): void => {
     encode: false,
     fontDisplay: '',
     cache: false,
-    filename: '',
+    filename: ''
   })
 })
 
 test('Can load nested configuration from json file while not being the first', (): void => {
-  const options = new Options('src/__mocks__/optionsNestedButNotFirst.json')
+  const options = new Options('src/__mocks__/optionsNestedButNotFirst.json', false)
   expect(options.get()).toEqual({
     fonts: [],
     formats: [],
@@ -61,11 +64,11 @@ test('Can load nested configuration from json file while not being the first', (
     encode: false,
     fontDisplay: '',
     cache: false,
-    filename: '',
+    filename: ''
   })
 })
 
 test("Will fallback to default options if it's not present in json file", (): void => {
-  const options = new Options('src/__mocks__/optionsMissing.json')
-  expect(options.get()).toEqual(new Options().get())
+  const options = new Options('src/__mocks__/optionsMissing.json', false)
+  expect(options.get()).toEqual(new Options('', false).get())
 })

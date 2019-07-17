@@ -2,44 +2,36 @@ import Chunk from '../Chunk/Chunk'
 import Fonts from '../Fonts/Fonts'
 import Options from '../Options/Options'
 import DefaultOptions from '../Options/DefaultOptions'
-import { Compiler, compilation as webpackCompilation } from 'webpack'
+import { compilation as webpackCompilation, Compiler } from 'webpack'
 
 export default class Plugin {
   private static pluginName: string = 'google-fonts-plugin'
+
   private readonly options: Options
+
   private fonts: Fonts
 
   public constructor(input?: DefaultOptions | string) {
     this.options = new Options(input)
-    this.options.get()
     this.fonts = new Fonts(this.options)
   }
 
   public static getPluginName = (): string => Plugin.pluginName
 
-  public getFilename = (
-    format: string,
-    compilation: webpackCompilation.Compilation
-  ): string => {
+  public getFilename = (format: string, compilation: webpackCompilation.Compilation): string => {
     let filename = this.options.filename
     const replaceMatrix: { [key: string]: string } = {
       name: format,
       hash: compilation.hash || '',
-      chunkhash: Chunk.hash(this.options),
+      chunkhash: Chunk.hash(this.options)
     }
 
     Object.keys(replaceMatrix).forEach((key: string): void => {
-      let regex = new RegExp(`\\[${key}:?(\\d+)?\\]`, 'gi')
-      let result = regex.exec(filename)
+      const regex = new RegExp(`\\[${key}:?(\\d+)?\\]`, 'gi')
+      const result = regex.exec(filename)
 
       if (result) {
-        filename = filename.replace(
-          regex,
-          replaceMatrix[key].substring(
-            0,
-            result[1] ? Number(result[1]) : Infinity
-          )
-        )
+        filename = filename.replace(regex, replaceMatrix[key].substring(0, result[1] ? Number(result[1]) : Infinity))
       }
     })
 
@@ -61,7 +53,7 @@ export default class Plugin {
           const css = await this.fonts.requestFontsCSS(format)
           compilation.assets[this.getFilename(format, compilation)] = {
             source: (): string => css,
-            size: (): number => Buffer.byteLength(css, 'utf8'),
+            size: (): number => Buffer.byteLength(css, 'utf8')
           }
         }
 
@@ -70,13 +62,11 @@ export default class Plugin {
           async (assets, callback): Promise<void> => {
             for (const format of Object.values(this.options.formats)) {
               const file: string = this.getFilename(format, compilation)
-              const css: string = await this.fonts.encode(
-                assets[Object.keys(assets).indexOf(file)].source()
-              )
+              const css: string = await this.fonts.encode(assets[Object.keys(assets).indexOf(file)].source())
 
               compilation.assets[file] = {
                 source: (): string => css,
-                size: (): number => Buffer.byteLength(css, 'utf8'),
+                size: (): number => Buffer.byteLength(css, 'utf8')
               }
             }
 
@@ -84,24 +74,18 @@ export default class Plugin {
           }
         )
 
-        compilation.hooks.afterOptimizeChunkAssets.tap(
-          Plugin.getPluginName(),
-          (): void => {
-            const fontsChunk = chunk.get()
-            for (const format of Object.values(this.options.formats)) {
-              fontsChunk.files.push(this.getFilename(format, compilation))
-            }
+        compilation.hooks.afterOptimizeChunkAssets.tap(Plugin.getPluginName(), (): void => {
+          const fontsChunk = chunk.get()
+          for (const format of Object.values(this.options.formats)) {
+            fontsChunk.files.push(this.getFilename(format, compilation))
           }
-        )
+        })
 
-        compilation.hooks.chunkHash.tap(
-          Plugin.getPluginName(),
-          (chunk, chunkHash): void => {
-            if (chunk.name === this.options.chunkName) {
-              chunkHash.digest = (): string => Chunk.hash(this.options)
-            }
+        compilation.hooks.chunkHash.tap(Plugin.getPluginName(), (chunk, chunkHash): void => {
+          if (chunk.name === this.options.chunkName) {
+            chunkHash.digest = (): string => Chunk.hash(this.options)
           }
-        )
+        })
 
         callback()
       }
@@ -112,11 +96,8 @@ export default class Plugin {
       delete compilation.assets[chunk.files[0]]
     })
 
-    compiler.hooks.afterCompile.tap(
-      Plugin.getPluginName(),
-      (compilation): void => {
-        compilation.contextDependencies.add(this.options.file)
-      }
-    )
+    compiler.hooks.afterCompile.tap(Plugin.getPluginName(), (compilation): void => {
+      compilation.contextDependencies.add(this.options.file)
+    })
   }
 }

@@ -1,6 +1,13 @@
-import webpackConfig from '../__mocks__/webpack.config'
-import Plugin from './Plugin'
 import * as webpack from 'webpack'
+import Plugin from './Plugin'
+
+const webpackConfig: webpack.Configuration = {
+  entry: './entry.js',
+  output: {
+    path: '/dist',
+    filename: 'bundle.js'
+  }
+}
 
 test('Should apply to webpack 4', (): void => {
   const googleFonts = new Plugin()
@@ -34,7 +41,7 @@ test('Should apply with config file', (): void => {
 
 test('Should apply with config object', (): void => {
   const googleFonts = new Plugin({
-    fonts: [],
+    fonts: []
   })
   const compiler = webpack(webpackConfig)
   const environment = jest.spyOn(compiler.hooks.environment, 'tap')
@@ -51,35 +58,27 @@ test('Should apply with config object', (): void => {
 
 test('Should generate basic filename', (): void => {
   const googleFonts = new Plugin({
-    filename: 'test.css',
+    filename: 'test.css'
   })
   const compiler = webpack(webpackConfig)
 
-  expect(googleFonts.getFilename('woff2', compiler.createCompilation())).toBe(
-    'test.css'
-  )
-  expect(googleFonts.getFilename('woff', compiler.createCompilation())).toBe(
-    'test.css'
-  )
+  expect(googleFonts.getFilename('woff2', compiler.createCompilation())).toBe('test.css')
+  expect(googleFonts.getFilename('woff', compiler.createCompilation())).toBe('test.css')
 })
 
 test('Should replace [name] in filename', (): void => {
   const googleFonts = new Plugin({
-    filename: '[name].css',
+    filename: '[name].css'
   })
   const compiler = webpack(webpackConfig)
 
-  expect(googleFonts.getFilename('woff2', compiler.createCompilation())).toBe(
-    'woff2.css'
-  )
-  expect(googleFonts.getFilename('woff', compiler.createCompilation())).toBe(
-    'woff.css'
-  )
+  expect(googleFonts.getFilename('woff2', compiler.createCompilation())).toBe('woff2.css')
+  expect(googleFonts.getFilename('woff', compiler.createCompilation())).toBe('woff.css')
 })
 
 test('Should replace [hash] in filename', (): void => {
   const googleFonts = new Plugin({
-    filename: '[hash].css',
+    filename: '[hash].css'
   })
   const compiler = webpack(webpackConfig)
   const compilation = compiler.createCompilation()
@@ -91,30 +90,22 @@ test('Should replace [hash] in filename', (): void => {
 
 test('Should replace [chunkhash] in filename', (): void => {
   const googleFonts = new Plugin({
-    filename: '[chunkhash].css',
+    filename: '[chunkhash].css'
   })
   const compiler = webpack(webpackConfig)
 
-  expect(googleFonts.getFilename('woff2', compiler.createCompilation())).toBe(
-    '7c0074b72d0b522f8fdb7c14819a957aba78759f.css'
-  )
-  expect(googleFonts.getFilename('woff', compiler.createCompilation())).toBe(
-    '7c0074b72d0b522f8fdb7c14819a957aba78759f.css'
-  )
+  expect(googleFonts.getFilename('woff2', compiler.createCompilation())).toBe('25fe5909bd76a9e765e94b22247ae4aff2b2c0bf.css')
+  expect(googleFonts.getFilename('woff', compiler.createCompilation())).toBe('25fe5909bd76a9e765e94b22247ae4aff2b2c0bf.css')
 })
 
 test('Should replace [name], [hash] and [chunkhash]', (): void => {
   const googleFonts = new Plugin({
-    filename: '[name].[hash].[chunkhash].css',
+    filename: '[name].[hash].[chunkhash].css'
   })
   const compiler = webpack(webpackConfig)
   const compilation = compiler.createCompilation()
   compilation.hash = 'asdf'
 
-  expect(googleFonts.getFilename('woff2', compilation)).toBe(
-    'woff2.asdf.ea518415821b9a21f60c0e3731bc1e6c0b7cfabc.css'
-  )
-  expect(googleFonts.getFilename('woff', compilation)).toBe(
-    'woff.asdf.ea518415821b9a21f60c0e3731bc1e6c0b7cfabc.css'
-  )
+  expect(googleFonts.getFilename('woff2', compilation)).toBe('woff2.asdf.8c8c30251ed4ca4e647d2549ac732f600c2fc580.css')
+  expect(googleFonts.getFilename('woff', compilation)).toBe('woff.asdf.8c8c30251ed4ca4e647d2549ac732f600c2fc580.css')
 })

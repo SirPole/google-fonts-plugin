@@ -1,16 +1,13 @@
 import { createHash } from 'crypto'
 import Options from '../Options/Options'
-import { compilation as webpackCompilation, RawModule } from 'webpack'
-//import RawModule from 'webpack/lib/RawModule' // FIXME
+import { compilation as webpackCompilation } from 'webpack'
 
 export default class Chunk {
   private compilation: webpackCompilation.Compilation
+
   private readonly name: string
 
-  public constructor(
-    compilation: webpackCompilation.Compilation,
-    name: string
-  ) {
+  public constructor(compilation: webpackCompilation.Compilation, name: string) {
     this.compilation = compilation
     this.name = name
   }
@@ -20,15 +17,15 @@ export default class Chunk {
       .update(JSON.stringify(options))
       .digest('hex')
 
-  public create = (): void => {
-    const chunk = this.compilation.addChunk(this.name)
-    const webpackModule = new RawModule('', `${this.name}-module`)
-    webpackModule.buildInfo = {}
-    webpackModule.buildMeta = {}
-    webpackModule.hash = ''
-    chunk.addModule(webpackModule)
+  public create = (): webpackCompilation.Chunk => {
+    return this.compilation.addChunk(this.name)
+    // const webpackModule =
+    // const webpackModule = new RawModule('', `${this.name}-module`)
+    // webpackModule.buildInfo = {}
+    // webpackModule.buildMeta = {}
+    // webpackModule.hash = ''
+    // return chunk.addModule(webpackModule)
   }
 
-  public get = (): webpackCompilation.Chunk =>
-    this.compilation.namedChunks.get(this.name)
+  public get = (): webpackCompilation.Chunk => this.compilation.namedChunks.get(this.name)
 }
