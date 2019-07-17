@@ -85,12 +85,10 @@
     }
   },
   "lint-staged": {
-    "linters": {
-      "src/**/*.ts": [
-        "eslint --fix",
-        "git add"
-      ]
-    }
+    "src/**/*.ts": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -100,11 +98,11 @@
   "devDependencies": {
     "@types/find-cache-dir": "^2.0.0",
     "@types/jest": "^24.0.15",
-    "@types/node": "^12.0.8",
-    "@types/webpack": "^4.4.32",
-    "@typescript-eslint/eslint-plugin": "1.11.0",
-    "@typescript-eslint/parser": "1.11.0",
-    "axios-mock-adapter": "^1.16.0",
+    "@types/node": "^12.6.6",
+    "@types/webpack": "^4.4.35",
+    "@typescript-eslint/eslint-plugin": "1.12.0",
+    "@typescript-eslint/parser": "1.12.0",
+    "axios-mock-adapter": "^1.17.0",
     "clean-webpack-plugin": "^3.0.0",
     "codecov": "^3.5.0",
     "dts-bundle-webpack": "^1.0.2",
@@ -118,12 +116,12 @@
     "eslint-plugin-standard": "^4.0.0",
     "husky": "^3.0.0",
     "jest": "^24.8.0",
-    "lint-staged": "8.2.1",
+    "lint-staged": "9.2.0",
     "prettier": "1.18.2",
     "ts-jest": "^24.0.2",
     "ts-loader": "^6.0.4",
-    "typescript": "^3.5.2",
-    "webpack": "^4.34.0",
-    "webpack-cli": "^3.3.4"
+    "typescript": "^3.5.3",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.6"
   }
 }
