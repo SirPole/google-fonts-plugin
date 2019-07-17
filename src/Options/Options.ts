@@ -36,6 +36,8 @@ export default class Options implements DefaultOptions {
 
   public file: string = ''
 
+  public stats: boolean = true
+
   private readonly input: DefaultOptions | string | undefined
 
   public constructor(input?: DefaultOptions | string, initialize: boolean = true) {

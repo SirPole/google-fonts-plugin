@@ -11,4 +11,5 @@ export default interface DefaultOptions extends Object {
   fontDisplay?: FontDisplay | string
   cache?: boolean
   filename?: string
+  stats?: boolean
 }

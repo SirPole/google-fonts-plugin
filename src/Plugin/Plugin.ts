@@ -49,31 +49,22 @@ export default class Plugin {
       async (compilation, callback): Promise<void> => {
         const chunk = new Chunk(compilation, this.options.chunkName)
         chunk.create()
-        for (const format of this.options.formats) {
-          const file = this.getFilename(format, compilation)
+        for (const format of Object.values(this.options.formats)) {
           const css = await this.fonts.requestFontsCSS(format)
-          compilation.assets[file] = new RawSource(css)
+          compilation.assets[format] = new RawSource(css)
         }
 
         compilation.hooks.optimizeAssets.tapAsync(
           Plugin.getPluginName(),
           async (assets, callback): Promise<void> => {
-            for (const format of this.options.formats) {
-              const file = this.getFilename(format, compilation)
-              const css = await this.fonts.encode(compilation.assets[file].source())
-              compilation.assets[file] = new RawSource(css)
+            for (const format of Object.values(this.options.formats)) {
+              const css = await this.fonts.encode(compilation.assets[format].source())
+              compilation.assets[format] = new RawSource(css)
             }
 
             callback()
           }
         )
-
-        compilation.hooks.afterOptimizeChunkAssets.tap(Plugin.getPluginName(), (): void => {
-          const fontsChunk = chunk.get()
-          for (const format of Object.values(this.options.formats)) {
-            fontsChunk.files.push(this.getFilename(format, compilation))
-          }
-        })
 
         compilation.hooks.chunkHash.tap(Plugin.getPluginName(), (chunk, chunkHash): void => {
           if (chunk.name === this.options.chunkName) {
@@ -85,13 +76,21 @@ export default class Plugin {
       }
     )
 
+    compiler.hooks.afterCompile.tap(Plugin.getPluginName(), (compilation): void => {
+      compilation.contextDependencies.add(this.options.file)
+    })
+
     compiler.hooks.emit.tap(Plugin.getPluginName(), (compilation): void => {
       const chunk = new Chunk(compilation, this.options.chunkName).get()
       delete compilation.assets[chunk.files[0]]
-    })
-
-    compiler.hooks.afterCompile.tap(Plugin.getPluginName(), (compilation): void => {
-      compilation.contextDependencies.add(this.options.file)
+      for (const format of Object.values(this.options.formats)) {
+        const file = this.getFilename(format, compilation)
+        chunk.files.push(file)
+        if (file !== format) {
+          compilation.assets[file] = new RawSource(compilation.assets[format].source())
+          delete compilation.assets[format]
+        }
+      }
     })
   }
 }
