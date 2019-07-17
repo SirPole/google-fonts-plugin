@@ -1,9 +1,10 @@
-import Chunk from '../Chunk/Chunk'
-import Fonts from '../Fonts/Fonts'
-import Options from '../Options/Options'
-import DefaultOptions from '../Options/DefaultOptions'
 import { compilation as webpackCompilation, Compiler } from 'webpack'
 import { RawSource } from 'webpack-sources'
+import Chunk from '../Chunk/Chunk'
+import Fonts from '../Fonts/Fonts'
+import DefaultOptions from '../Options/DefaultOptions'
+import Options from '../Options/Options'
+import Stats from '../Stats/Stats'
 
 export default class Plugin {
   private static pluginName: string = 'google-fonts-plugin'
@@ -15,12 +16,16 @@ export default class Plugin {
   public constructor(input?: DefaultOptions | string) {
     this.options = new Options(input)
     this.fonts = new Fonts(this.options)
+
+    if (this.options.stats) {
+      new Stats().track(this.options)
+    }
   }
 
   public static getPluginName = (): string => Plugin.pluginName
 
   public getFilename = (format: string, compilation: webpackCompilation.Compilation): string => {
-    let filename = this.options.filename
+    let { filename } = this.options
     const replaceMatrix: { [key: string]: string } = {
       name: format,
       hash: compilation.hash || '',
