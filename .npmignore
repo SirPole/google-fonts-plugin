@@ -9,3 +9,5 @@ log
 __mocks__
 __tests__
 docker-compose.yml
+tsconfig.json
+webpack.config.js
