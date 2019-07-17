@@ -3,6 +3,7 @@ import Fonts from '../Fonts/Fonts'
 import Options from '../Options/Options'
 import DefaultOptions from '../Options/DefaultOptions'
 import { compilation as webpackCompilation, Compiler } from 'webpack'
+import { RawSource } from 'webpack-sources'
 
 export default class Plugin {
   private static pluginName: string = 'google-fonts-plugin'
@@ -26,14 +27,14 @@ export default class Plugin {
       chunkhash: Chunk.hash(this.options)
     }
 
-    Object.keys(replaceMatrix).forEach((key: string): void => {
+    for (const key of Object.keys(replaceMatrix)) {
       const regex = new RegExp(`\\[${key}:?(\\d+)?\\]`, 'gi')
       const result = regex.exec(filename)
 
       if (result) {
         filename = filename.replace(regex, replaceMatrix[key].substring(0, result[1] ? Number(result[1]) : Infinity))
       }
-    })
+    }
 
     return filename
   }
@@ -48,26 +49,19 @@ export default class Plugin {
       async (compilation, callback): Promise<void> => {
         const chunk = new Chunk(compilation, this.options.chunkName)
         chunk.create()
-
-        for (const format of Object.values(this.options.formats)) {
+        for (const format of this.options.formats) {
+          const file = this.getFilename(format, compilation)
           const css = await this.fonts.requestFontsCSS(format)
-          compilation.assets[this.getFilename(format, compilation)] = {
-            source: (): string => css,
-            size: (): number => Buffer.byteLength(css, 'utf8')
-          }
+          compilation.assets[file] = new RawSource(css)
         }
 
         compilation.hooks.optimizeAssets.tapAsync(
           Plugin.getPluginName(),
           async (assets, callback): Promise<void> => {
-            for (const format of Object.values(this.options.formats)) {
-              const file: string = this.getFilename(format, compilation)
-              const css: string = await this.fonts.encode(assets[Object.keys(assets).indexOf(file)].source())
-
-              compilation.assets[file] = {
-                source: (): string => css,
-                size: (): number => Buffer.byteLength(css, 'utf8')
-              }
+            for (const format of this.options.formats) {
+              const file = this.getFilename(format, compilation)
+              const css = await this.fonts.encode(compilation.assets[file].source())
+              compilation.assets[file] = new RawSource(css)
             }
 
             callback()

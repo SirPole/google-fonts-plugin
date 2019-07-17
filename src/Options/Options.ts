@@ -70,7 +70,7 @@ export default class Options implements DefaultOptions {
 
   private getFromPackage = (): DefaultOptions => this.getFromFile(pkgUp.sync() || '')
 
-  private crawl = (options: { [key: string]: any }): DefaultOptions => {
+  private crawl = (options: DefaultOptions): DefaultOptions => {
     let result: DefaultOptions = {}
     for (const key of Object.keys(options)) {
       if (key === Plugin.getPluginName()) {

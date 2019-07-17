@@ -2,11 +2,6 @@ import * as webpack from 'webpack'
 
 declare module 'webpack' {
   namespace compilation {
-    interface Asset {
-      size(): number
-      source(): string
-    }
-
     interface ChunkHash {
       digest(): string
     }
