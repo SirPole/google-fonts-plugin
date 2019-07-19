@@ -2,10 +2,10 @@
   "google-fonts-plugin": {
     "fonts": [],
     "formats": [],
-    "formatAgents": {},
     "chunkName": "",
     "encode": false,
     "fontDisplay": "",
-    "cache": false
+    "cache": false,
+    "filename": ""
   }
 }

@@ -1,15 +1,17 @@
 {
   "name": "google-fonts-plugin",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "description": "Webpack plugin that downloads fonts from Google Fonts and encodes them to base64.",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prepublishOnly": "npm test && npm run build",
-    "pretest": "standard --fix",
+    "lint": "eslint --ext .js,.ts src/",
+    "lint-fix": "npm run lint -- --fix",
     "test": "jest --coverage --env=node",
     "posttest": "codecov",
     "test-watch": "jest --watch --env=node",
-    "build": "babel src --out-dir dist"
+    "build": "rm -rf dist && tsc"
   },
   "repository": {
     "type": "git",
@@ -28,49 +30,95 @@
     "url": "https://github.com/SirPole/google-fonts-plugin/issues"
   },
   "homepage": "https://github.com/SirPole/google-fonts-plugin#readme",
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": "10"
-          }
-        }
-      ]
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
     ],
-    "plugins": [
-      "@babel/plugin-proposal-class-properties"
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
     ]
   },
-  "standard": {
-    "parser": "babel-eslint",
+  "eslintConfig": {
     "env": {
-      "node": true,
       "commonjs": true,
       "es6": true,
-      "jest": true
+      "jest": true,
+      "node": true
+    },
+    "extends": [
+      "standard",
+      "plugin:@typescript-eslint/recommended",
+      "prettier",
+      "prettier/@typescript-eslint",
+      "prettier/standard"
+    ],
+    "plugins": [
+      "@typescript-eslint",
+      "prettier",
+      "standard"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "sourceType": "module",
+      "ecmaVersion": 2018
+    },
+    "rules": {
+      "prettier/prettier": "error"
     }
   },
+  "prettier": {
+    "endOfLine": "lf",
+    "parser": "typescript",
+    "printWidth": 180,
+    "semi": false,
+    "singleQuote": true
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "find-cache-dir": "^3.0.0",
-    "neon-js": "^1.1.2",
     "pkg-up": "^3.1.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
-    "axios-mock-adapter": "^1.16.0",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^10.0.1",
-    "babel-jest": "^24.8.0",
-    "codecov": "^3.4.0",
+    "@types/find-cache-dir": "^2.0.0",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.6.6",
+    "@types/webpack": "^4.4.35",
+    "@types/webpack-sources": "^0.1.5",
+    "@typescript-eslint/eslint-plugin": "1.12.0",
+    "@typescript-eslint/parser": "1.12.0",
+    "axios-mock-adapter": "^1.17.0",
+    "codecov": "^3.5.0",
+    "eslint": "6.0.1",
+    "eslint-config-prettier": "6.0.0",
+    "eslint-config-standard": "^13.0.1",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-prettier": "3.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "husky": "^3.0.0",
     "jest": "^24.8.0",
-    "standard": "^12.0.1",
-    "webpack": "^4.31.0",
-    "webpack-cli": "^3.3.2"
+    "lint-staged": "9.2.0",
+    "prettier": "1.18.2",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.3",
+    "webpack": "^4.35.3"
   }
 }
