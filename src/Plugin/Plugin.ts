@@ -55,25 +55,14 @@ export default class Plugin {
         const chunk = new Chunk(compilation, this.options.chunkName)
         chunk.create()
         for (const format of Object.values(this.options.formats)) {
-          const css = await this.fonts.requestFontsCSS(format)
-          compilation.assets[format] = new RawSource(css)
+          let css = await this.fonts.requestFontsCSS(format)
+          css = await this.fonts.encode(css)
+          compilation.assets[`${format}.css`] = new RawSource(css)
         }
-
-        compilation.hooks.optimizeAssets.tapAsync(
-          Plugin.getPluginName(),
-          async (assets, callback): Promise<void> => {
-            for (const format of Object.values(this.options.formats)) {
-              const css = await this.fonts.encode(compilation.assets[format].source())
-              compilation.assets[format] = new RawSource(css)
-            }
-
-            callback()
-          }
-        )
 
         compilation.hooks.chunkHash.tap(Plugin.getPluginName(), (chunk, chunkHash): void => {
           if (chunk.name === this.options.chunkName) {
-            chunkHash.digest = (): string => Chunk.hash(this.options.get())
+            chunkHash.digest = () => Chunk.hash(this.options.get())
           }
         })
 
@@ -92,8 +81,8 @@ export default class Plugin {
         const file = this.getFilename(format, compilation)
         chunk.files.push(file)
         if (file !== format) {
-          compilation.assets[file] = new RawSource(compilation.assets[format].source())
-          delete compilation.assets[format]
+          compilation.assets[file] = new RawSource(compilation.assets[`${format}.css`].source())
+          delete compilation.assets[`${format}.css`]
         }
       }
     })
