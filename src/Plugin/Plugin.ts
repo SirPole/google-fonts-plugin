@@ -11,11 +11,8 @@ export default class Plugin {
 
   private readonly options: Options
 
-  private fonts: Fonts
-
   public constructor(input?: DefaultOptions | string) {
     this.options = new Options(input)
-    this.fonts = new Fonts(this.options)
 
     if (this.options.stats) {
       new Stats().track(this.options)
@@ -55,8 +52,9 @@ export default class Plugin {
         const chunk = new Chunk(compilation, this.options.chunkName)
         chunk.create()
         for (const format of Object.values(this.options.formats)) {
-          let css = await this.fonts.requestFontsCSS(format)
-          css = await this.fonts.encode(css)
+          const fonts = new Fonts(format, this.options)
+          let css = await fonts.requestFontsCSS()
+          css = await fonts.encode(css)
           compilation.assets[`${format}.css`] = new RawSource(css)
         }
 

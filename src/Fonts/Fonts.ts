@@ -6,11 +6,14 @@ import Options from '../Options/Options'
 export default class Fonts {
   private readonly options: Options
 
-  public constructor(options?: Options) {
+  private readonly format: string
+
+  public constructor(format: string, options?: Options) {
     if (!options) {
       options = new Options()
     }
     this.options = options
+    this.format = format
   }
 
   public createRequestUrls = (): string[] => {
@@ -47,9 +50,9 @@ export default class Fonts {
       .filter((url: string): boolean => url.length > 0)
   }
 
-  public requestFont = async (requestUrl: string, format: string, encoding: string): Promise<string> => {
+  public requestFont = async (requestUrl: string, encoding: string): Promise<string> => {
     let response = ''
-    const cacheKey = Cache.key(requestUrl, format)
+    const cacheKey = Cache.key(requestUrl, this.format)
     if (this.options.cache) {
       response = Cache.get(cacheKey, encoding)
     }
@@ -62,7 +65,7 @@ export default class Fonts {
       url: requestUrl,
       responseType: 'arraybuffer',
       headers: {
-        'User-Agent': this.options.getAgent(format)
+        'User-Agent': this.options.getAgent(this.format)
       }
     })).data
     Cache.save(cacheKey, response, encoding)
@@ -70,32 +73,25 @@ export default class Fonts {
     return response
   }
 
-  public requestFontsCSS = async (format: string): Promise<string> => {
-    const requests = this.createRequestUrls()
-    const promises = requests.map((request: string): Promise<string> => this.requestFont(request, format, 'utf8'))
+  public requestFontsCSS = async (): Promise<string> => {
+    const urls = this.createRequestUrls()
+    const promises = urls.map((url: string): Promise<string> => this.requestFont(url, 'utf8'))
     const fonts = await Promise.all(promises)
     return fonts.join('')
   }
 
   public requestFontFiles = async (fontUrls: string[]): Promise<string[]> => {
     const promises = fontUrls.map(this.requestFontFile)
-    const files = await Promise.all(promises)
-    return files
+    return Promise.all(promises)
   }
 
   public requestFontFile = async (fontUrl: string): Promise<string> => {
-    if (fontUrl.startsWith('"data:application/')) {
+    if (!fontUrl.startsWith('http')) {
       return fontUrl
     }
 
-    const matches = fontUrl.match(new RegExp('(' + Object.values(this.options.formats).join('|') + ')$'))
-    if (!matches) {
-      return fontUrl
-    }
-
-    const format = matches[1]
-    const font = await this.requestFont(fontUrl, format, 'binary')
-    return `"data:application/x-font-${format};base64,${Buffer.from(font, 'binary').toString('base64')}"`
+    const font = await this.requestFont(fontUrl, 'binary')
+    return `"data:application/x-font-${this.format};base64,${Buffer.from(font, 'binary').toString('base64')}"`
   }
 
   public encode = async (css: string): Promise<string> => {

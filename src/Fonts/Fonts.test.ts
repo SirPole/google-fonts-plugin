@@ -6,13 +6,13 @@ import Fonts from './Fonts'
 const mock = new AxiosMockAdapter(axios)
 
 test('Creates request url with default settings', (): void => {
-  const fonts = new Fonts()
+  const fonts = new Fonts('woff2')
   expect(fonts.createRequestUrls()).toEqual(['https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=latin,latin-ext'])
 })
 
 test('Does not create request url with empty settings', (): void => {
   const options = new Options({ fonts: [] })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   expect(fonts.createRequestUrls()).toEqual([])
 })
 
@@ -24,7 +24,7 @@ test('Does not create request strong from missing family', (): void => {
       }
     ]
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   expect(fonts.createRequestUrls()).toEqual([])
 })
 
@@ -37,7 +37,7 @@ test('Does create request url with 1 variant', (): void => {
       }
     ]
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   expect(fonts.createRequestUrls()).toEqual(['https://fonts.googleapis.com/css?family=Roboto:400'])
 })
 
@@ -50,7 +50,7 @@ test('Does create request url with multiple variants', (): void => {
       }
     ]
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   expect(fonts.createRequestUrls()).toEqual(['https://fonts.googleapis.com/css?family=Roboto:400,700,900'])
 })
 
@@ -63,7 +63,7 @@ test('Does create request url with 1 subset', (): void => {
       }
     ]
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   expect(fonts.createRequestUrls()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&subset=latin-ext'])
 })
 
@@ -76,7 +76,7 @@ test('Does create request url with multiple subsets', (): void => {
       }
     ]
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   expect(fonts.createRequestUrls()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&subset=greek-ext,latin-ext,vietnamese'])
 })
 
@@ -90,7 +90,7 @@ test('Does create request url with text specified and ignores subsets', (): void
       }
     ]
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   expect(fonts.createRequestUrls()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&text=asdf'])
 })
 
@@ -103,7 +103,7 @@ test('Does create request url with text specified', (): void => {
       }
     ]
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   expect(fonts.createRequestUrls()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&text=asdf'])
 })
 
@@ -117,7 +117,7 @@ test('Does create request url without font-display with encoding enabled', (): v
     encode: true,
     fontDisplay: 'swap'
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   expect(fonts.createRequestUrls()).toEqual(['https://fonts.googleapis.com/css?family=Roboto'])
 })
 
@@ -131,7 +131,7 @@ test('Does create request url with font-display when encoding is disabled', (): 
     encode: false,
     fontDisplay: 'swap'
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   expect(fonts.createRequestUrls()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&display=swap'])
 })
 
@@ -145,7 +145,7 @@ test('Does create request url with custom font-display when encoding is disabled
     encode: false,
     fontDisplay: 'asdf'
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   expect(fonts.createRequestUrls()).toEqual(['https://fonts.googleapis.com/css?family=Roboto&display=asdf'])
 })
 
@@ -164,7 +164,7 @@ test('Does create multiple request urls', (): void => {
       }
     ]
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   expect(fonts.createRequestUrls()).toEqual([
     'https://fonts.googleapis.com/css?family=Roboto:400,700,900&subset=greek-ext,latin-ext,vietnamese',
     'https://fonts.googleapis.com/css?family=Open+Sans:400,700,900&subset=greek-ext,latin-ext,vietnamese'
@@ -172,7 +172,7 @@ test('Does create multiple request urls', (): void => {
 })
 
 test('Should replace urls with encoded fonts', async (): Promise<void> => {
-  const fonts = new Fonts()
+  const fonts = new Fonts('woff2')
   mock.onGet('https://fonts.gstatic.com/s/roboto/v16/fIKu7GwZTy_12XzG_jt8eA.woff2').reply(200, 'asdf')
   mock.onGet('https://fonts.gstatic.com/s/roboto/v16/97uahxiqZRoncBaCEI3aW1tXRa8TVwTICgirnJhmVJw.woff2').reply(200, 'fdsa')
   await expect(
@@ -208,7 +208,7 @@ test('Should not encode when disabled', async (): Promise<void> => {
   const options = new Options({
     encode: false
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   mock.onGet('https://fonts.gstatic.com/s/roboto/v16/fIKu7GwZTy_12XzG_jt8eA.woff2').reply(200, 'asdf')
   mock.onGet('https://fonts.gstatic.com/s/roboto/v16/97uahxiqZRoncBaCEI3aW1tXRa8TVwTICgirnJhmVJw.woff2').reply(200, 'fdsa')
   await expect(
@@ -243,23 +243,31 @@ test('Should not encode when disabled', async (): Promise<void> => {
 })
 
 test('Should not encode when malformed', async (): Promise<void> => {
-  const fonts = new Fonts()
+  const fonts = new Fonts('woff2')
   await expect(fonts.encode('asdf')).resolves.toBe('asdf')
 })
 
 test('Should encode font file to base64', async (): Promise<void> => {
-  const fonts = new Fonts()
+  const fonts = new Fonts('woff2')
   mock.onGet('https://fonts.gstatic.com/s/roboto/v16/fIKu7GwZTy_12XzG_jt8eA.woff2').reply(200, 'asdf')
   await expect(fonts.requestFontFile('https://fonts.gstatic.com/s/roboto/v16/fIKu7GwZTy_12XzG_jt8eA.woff2')).resolves.toBe('"data:application/x-font-woff2;base64,YXNkZg=="')
 })
 
+test('Should encode font kit when using `text`', async (): Promise<void> => {
+  const fonts = new Fonts('woff2')
+  mock.onGet('https://fonts.gstatic.com/l/font?kit=KFOlCnqEu92Fr1MmWUlvBgU5S6WU5g&skey=c06e7213f788649e&v=v19').reply(200, 'asdf')
+  await expect(fonts.requestFontFile('https://fonts.gstatic.com/l/font?kit=KFOlCnqEu92Fr1MmWUlvBgU5S6WU5g&skey=c06e7213f788649e&v=v19')).resolves.toBe(
+    '"data:application/x-font-woff2;base64,YXNkZg=="'
+  )
+})
+
 test('Should keep font file as is when malformed', async (): Promise<void> => {
-  const fonts = new Fonts()
+  const fonts = new Fonts('woff2')
   await expect(fonts.requestFontFile('asdf')).resolves.toBe('asdf')
 })
 
 test('Should encode array of font files to base64', async (): Promise<void> => {
-  const fonts = new Fonts()
+  const fonts = new Fonts('woff2')
   mock.onGet('https://fonts.gstatic.com/s/roboto/v16/fIKu7GwZTy_12XzG_jt8eA.woff2').reply(200, 'asdf')
   mock.onGet('https://fonts.gstatic.com/s/roboto/v16/97uahxiqZRoncBaCEI3aW1tXRa8TVwTICgirnJhmVJw.woff2').reply(200, 'fdsa')
   await expect(
@@ -271,7 +279,7 @@ test('Should encode array of font files to base64', async (): Promise<void> => {
 })
 
 test('Should ignore already encoded files', async (): Promise<void> => {
-  const fonts = new Fonts()
+  const fonts = new Fonts('woff2')
   await expect(fonts.requestFontFiles(['"data:application/x-font-woff2;base64,YXNkZg=="', '"data:application/x-font-woff2;base64,ZmRzYQ=="'])).resolves.toEqual([
     '"data:application/x-font-woff2;base64,YXNkZg=="',
     '"data:application/x-font-woff2;base64,ZmRzYQ=="'
@@ -279,7 +287,7 @@ test('Should ignore already encoded files', async (): Promise<void> => {
 })
 
 test('Should get desired font', async (): Promise<void> => {
-  const fonts = new Fonts()
+  const fonts = new Fonts('woff2')
   mock.onGet('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=latin,latin-ext').reply(
     200,
     `@font-face {
@@ -308,14 +316,14 @@ test('Should get desired font', async (): Promise<void> => {
 }
 `
   )
-  await expect(fonts.requestFontsCSS('woff2')).resolves.toMatch(/Roboto Bold Italic.*\.woff2/)
+  await expect(fonts.requestFontsCSS()).resolves.toMatch(/Roboto Bold Italic.*\.woff2/)
 })
 
 test('Should get one font css', async (): Promise<void> => {
   const options = new Options({
     cache: false
   })
-  const fonts = new Fonts(options)
+  const fonts = new Fonts('woff2', options)
   mock.onGet('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=latin,latin-ext').reply(
     200,
     `@font-face {
@@ -344,7 +352,5 @@ test('Should get one font css', async (): Promise<void> => {
 }
 `
   )
-  await expect(fonts.requestFont('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=latin,latin-ext', 'woff2', 'utf8')).resolves.toMatch(
-    /Roboto Bold Italic.*\.woff2/
-  )
+  await expect(fonts.requestFont('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=latin,latin-ext', 'utf8')).resolves.toMatch(/Roboto Bold Italic.*\.woff2/)
 })
