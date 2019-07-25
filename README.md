@@ -5,6 +5,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/SirPole/google-fonts-plugin.svg)](https://circleci.com/gh/SirPole/google-fonts-plugin/tree/master)
 [![Codecov](https://img.shields.io/codecov/c/github/sirpole/google-fonts-plugin.svg)](https://codecov.io/gh/SirPole/google-fonts-plugin)
 
+[![Buy Me A Coffee](https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/yellow_img.png)](https://www.buymeacoffee.com/SirPole)
 
 [Webpack](https://webpack.js.org/) plugin that downloads fonts from [Google Fonts](https://fonts.google.com/) and encodes them to base64.
 
@@ -16,7 +17,7 @@ Exports to format specific css files, which you can serve to your clients.
 
 ## Install
 ``` bash
-npm i -D google-fonts-plugin
+npm install --save-dev google-fonts-plugin
 ```
 
 ## Usage
