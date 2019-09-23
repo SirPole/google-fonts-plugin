@@ -78,7 +78,7 @@ export default class Plugin {
       for (const format of Object.values(this.options.formats)) {
         const file = this.getFilename(format, compilation)
         chunk.files.push(file)
-        if (file !== format) {
+        if (file !== `${format}.css`) {
           compilation.assets[file] = new RawSource(compilation.assets[`${format}.css`].source())
           delete compilation.assets[`${format}.css`]
         }
