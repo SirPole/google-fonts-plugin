@@ -46,9 +46,9 @@ export default class Plugin {
 
     compiler.hooks.watchRun.tap(Plugin.getPluginName(), this.options.get)
 
-    compiler.hooks.make.tapAsync(
+    compiler.hooks.make.tapPromise(
       Plugin.getPluginName(),
-      async (compilation, callback): Promise<void> => {
+      async (compilation): Promise<void> => {
         const chunk = new Chunk(compilation, this.options.chunkName)
         chunk.create()
         for (const format of Object.values(this.options.formats)) {
@@ -63,8 +63,6 @@ export default class Plugin {
             chunkHash.digest = () => Chunk.hash(this.options.get())
           }
         })
-
-        callback()
       }
     )
 
